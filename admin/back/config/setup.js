@@ -29,7 +29,6 @@ passport.use('register',
                         bcrypt.hash(newUser.password, salt, (err, hash) => {
                             if (err) throw err;
                             newUser.password = hash;
-                            newUser.uuid = uuidv4();
                             newUser
                                 .save()
                                 .then(user => {
@@ -55,21 +54,17 @@ passport.use('login',
     new LocalStrategy({ usernameField: "email" }, (email, password, done) => {
         // Match User
         User.findOne({ email: email })
-            .then(userb => {
+            .then(user => {
                 // Create new User
-                if (!userb) {
+                if (!user) {
                     return done(null, false, { message: "User does not exist" });
                 } else {
                     // Match password
-                    bcrypt.compare(password, userb.password, (err, isMatch) => {
+                    bcrypt.compare(password, user.password, (err, isMatch) => {
                         if (err) throw err;
 
                         if (isMatch) {
-                            console.log("testXXX");
-                            User.findOneAndUpdate({email: email}, {uuid: uuidv4()})
-                                .then(user => {
-                                    return done(null, user);
-                                });
+                            return done(null, user);
                         } else {
                             return done(null, false, { message: "Wrong password" });
                         }

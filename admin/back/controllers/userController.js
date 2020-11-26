@@ -19,7 +19,7 @@ module.exports = function (app) {
           if (err) {
               return res.status(400).json({ errors: err });
           }
-          return res.status(200).json({ success: `logged in ${user.id}`, uuid: user.uuid });
+          return res.status(200).json({ success: `logged in ${user.id}` });
       });
     })(req, res, next)
   })
@@ -37,22 +37,21 @@ module.exports = function (app) {
           if (err) {
               return res.status(400).json({ errors: err });
           }
-          return res.status(200).json({ success: `Welcome ${user.id}, please login`, uuid: user.uuid });
+          return res.status(200).json({ success: `Welcome ${user.id}, please login`});
       });
     })(req, res, next)
   })
-/*
+
   app.get('/auth/steam',
   passport.authenticate('steam'),
-  function(req, res) {
-    // The request will be redirected to Steam for authentication, so
-    // this function will not be called.
-  });
+    function(req, res) {
+      // The request will be redirected to Steam for authentication, so
+      // this function will not be called.
+    });
 
-  app.get('/auth/steam/return',
-  passport.authenticate('steam', { failureRedirect: '/login' }),
-  function(req, res) {
-      res.redirect('/');
+    app.get('/auth/steam/return',
+    passport.authenticate('steam', { failureRedirect: '/login' }),
+    function(req, res) {
+        res.redirect('/');
   });
-*/
 }
