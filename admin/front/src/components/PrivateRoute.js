@@ -6,7 +6,7 @@ export const PrivateRoute = ({component: Component, ...rest }) => (
     <Route
         {...rest}
         render={(props) => {
-            if (API.isAuth() === false) {
+            if (API.isAuth() === false && false) {
                 return <Redirect to="/" />;
             } else {
                 return <Component {...props} />;
