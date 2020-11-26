@@ -1,3 +1,5 @@
+const passport = require("passport");
+
 module.exports = function (app) {
     app.get('/', (req, res, next) => {
         res.send("I'm a test");
@@ -23,6 +25,7 @@ module.exports = function (app) {
   })
 
   app.post('/register', (req, res, next) => {
+    console.log("POST register");
     passport.authenticate('register', function(err, user, info) {
       if (err) {
         return res.status(400).json({ errors: err });

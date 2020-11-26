@@ -7,6 +7,7 @@ const burl = "http://127.0.0.1:28000";
 
 export default {
   login: function(email, password) {
+    console.log("test");
     return axios.post(
       `${burl}/user/login`,
       {
@@ -19,7 +20,7 @@ export default {
     );
   },
   signup: function(send) {
-    return axios.post(`${burl}/user/signup`, send, { headers: headers });
+    return axios.post(`${burl}/user/register`, send, { headers: headers });
   },
 
   isAuth: function() {

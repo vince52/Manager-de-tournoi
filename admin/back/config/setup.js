@@ -65,6 +65,7 @@ passport.use('login',
                         if (err) throw err;
 
                         if (isMatch) {
+                            console.log("testXXX");
                             User.findOneAndUpdate({email: email}, {uuid: uuidv4()})
                                 .then(user => {
                                     return done(null, user);

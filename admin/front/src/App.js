@@ -21,6 +21,7 @@ function App() {
     </div>
   );
 }
+*/
 
 import React, { Component } from "react";
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
@@ -31,14 +32,13 @@ import { Signup } from "./components/signup/Signup.js";
 import { PrivateRoute } from "./components/PrivateRoute.js";
 import "./App.css";
 
-import Button from 'react-bootstrap/Button';
+//import Button from 'react-bootstrap/Button';
 
 class App extends Component {
   render() {
     return (
       <div className="App">
         <div className="App-content">
-          <Button>Test</Button>
           <BrowserRouter>
             <Switch>
               <Route exact path="/" component={Login} />
@@ -52,8 +52,9 @@ class App extends Component {
   }
 }
 
-export default App;*/
+export default App;
 
+/*
 import React from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -148,4 +149,4 @@ export default function SignIn() {
       </div>
     </Container>
   );
-}
+}*/

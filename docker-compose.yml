@@ -7,6 +7,8 @@ services:
             - admin-back
         ports:
             - "8080:3000"
+        volumes:
+          - ./admin/front:/app
         restart: on-failure
     admin-back:
         container_name: back
