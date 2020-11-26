@@ -1,5 +1,4 @@
 import React from "react";
-import { FormGroup, FormControl, Form} from "react-bootstrap";
 import API from "../../utils/API";
 
 import Avatar from '@material-ui/core/Avatar';
@@ -12,33 +11,12 @@ import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-
-const useStyles = makeStyles((theme) => ({
-    paper: {
-      marginTop: theme.spacing(8),
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-    },
-    avatar: {
-      margin: theme.spacing(1),
-      backgroundColor: theme.palette.secondary.main,
-    },
-    form: {
-      width: '100%', // Fix IE 11 issue.
-      marginTop: theme.spacing(1),
-    },
-    submit: {
-      margin: theme.spacing(3, 0, 2),
-    },
-}));
 
 export class Login extends React.Component {
     state = {
-        email: "gazgf",
-        password: "afaf"
+        email: "",
+        password: ""
     };
     send = async () => {
         console.log("test send");
@@ -119,7 +97,7 @@ export class Login extends React.Component {
                     </Button>
                     <Grid container>
                         <Grid item>
-                        <Link href="#" variant="body2">
+                        <Link href="/signup" variant="body2">
                             {"Don't have an account? Sign Up"}
                         </Link>
                         </Grid>
