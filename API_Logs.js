@@ -3,11 +3,22 @@ const readline = require('readline');
 const { isContext } = require('vm');
 const f = require('./ParsingFunctions/Action')
 const g = require('./ParsingFunctions/Game')
+const t = require('./ParsingFunctions/Tree')
 var lineReader = require('readline').createInterface({
   input: require('fs').createReadStream('example.log')
 });
 
-var ThisGame = new g.Game();
+var teamlist = [new g.Team("1"), new g.Team("2"),
+                new g.Team("3"), new g.Team("4"),
+                new g.Team("5"), new g.Team("6"),
+                new g.Team("7"), new g.Team("8"),
+                new g.Team("9"), new g.Team("10"),
+                new g.Team("11"),new g.Team("12"),
+                new g.Team("13"),new g.Team("14"),
+                new g.Team("15"),new g.Team("16")]
+
+var ThisGame = new g.Game(new g.Team("1"), new g.Team("2"));
+var ThisTournament = new t.Tournament(16, teamlist);
 var Actions = [];
 var CT_Score = 0;
 var TER_Score = 0;
@@ -120,6 +131,33 @@ function TidyActions()
   }
 }
 
+function print2DUtil(node)  
+{  
+    if (node == null)  
+        return;  
+    print2DUtil(node.left);
+    if (node.data != null)
+      console.log(node.data.Name)
+    print2DUtil(node.right);  
+} 
+
+
+function DisplayTournament(tournament)
+{
+  print2DUtil(tournament.Tree.root)
+  var game;
+  var line = readline.createInterface(process.stdin, process.stdout);
+  line.question("What Team do you want to see play ?  ", (team) => {
+    game = t.getGameOfTeam(team)
+    console.log("Team : " + team + " is playing..." )
+    tournament.Tree.root = t.TeamWon(tournament.Tree.root, team)
+    console.log("Team " + team + " has won and advances the bracket !" )
+    print2DUtil(tournament.Tree.root)
+    line.close();
+  });
+}
+
+
 function DisplayResult() 
 {
   if (match_is_running) {
@@ -163,16 +201,15 @@ lineReader.on('line', function (line) {
   if (line.includes("Team \"TERRORIST\" triggered") || line.includes("Team \"CT\" triggered"))
     WinRound(line.includes("Team \"TERRORIST\" triggered"))
 
-  //if (line.includes("scored"))  //Score du round je pense que c'est usefull pour plus tard
-  //  parseScored(line);
 
   if (line.includes("World triggered \"Match_Start\""))
     Starts()
 
   if (line.includes(": Game Over: "))
-    DisplayResult()
+    DisplayTournament(ThisTournament);
+    //DisplayResult()
 
   if (line.includes("switched from team"))
     Switch() //ONCE
 
-}).on('close', DisplayResult)
+})//.on('close', DisplayResult)
