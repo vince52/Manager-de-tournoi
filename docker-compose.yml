@@ -1,30 +1,20 @@
 version: '3'
 services:
-    front:
+    admin-front:
         container_name: front
-        build: ./front
+        build: ./admin/front
         depends_on:
-            - back
-        volumes:
-          - ./node_project
+            - admin-back
         ports:
             - "8080:3000"
         restart: on-failure
-    back:
+    admin-back:
         container_name: back
-        build: ./back
+        build: ./admin/back
         depends_on:
             - mongo
         networks:
             - back_net
-        volumes:
-          - ./node_project
-        environment:
-            - DB_HOST=db
-            - DB_PORT=5432
-            - DB_USER=postgres
-            - DB_PASSWORD=password
-            - DB_NAME=postgres
         ports:
             - "28000:28000"
         restart: on-failure
@@ -34,7 +24,6 @@ services:
         environment:
             MONGO_INITDB_ROOT_USERNAME: admin
             MONGO_INITDB_ROOT_PASSWORD: adpass
-            MONGO_INITDB_DATABASE: dbapp
         volumes:
             - db-data:/data/db
         networks:

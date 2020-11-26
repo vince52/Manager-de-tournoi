@@ -2,7 +2,8 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
-
+const app = express();
+const passport = require("./config/setup");
 
 async function connectdb() {
   await new Promise(resolve => setTimeout(resolve, 2000));
@@ -18,13 +19,8 @@ async function connectdb() {
   });
 }
 
-//Connexion à la base de donnée
 connectdb();
 
-//On définit notre objet express nommé app
-const app = express();
-
-//Body Parser
 const urlencodedParser = bodyParser.urlencoded({
   extended: true
 });
@@ -32,7 +28,7 @@ app.use(urlencodedParser);
 
 app.use(bodyParser.json());
 
-//Définition des CORS
+
 app.use(function(req, res, next) {
   res.setHeader(
     "Access-Control-Allow-Headers",
@@ -47,14 +43,14 @@ app.use(function(req, res, next) {
   next();
 });
 
-//Définition du routeur
 const router = express.Router();
+
 app.use("/user", router);
 router.get('/',function(req,res){
   res.json("Hello World")
 })
+
 require(__dirname + "/controllers/userController")(router);
 
-//Définition et mise en place du port d'écoute
 const port = 28000;
 app.listen(port, () => console.log(`Listening on port ${port}`));

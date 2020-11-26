@@ -3,35 +3,42 @@ const passwordHash = require("password-hash");
 const jwt = require("jwt-simple");
 const config = require("../config/config");
 
+const ThirdSchema = new mongoose.Schema({
+  provider_name: {
+      type: String,
+      default: null
+  },
+  provider_id: {
+      type: String,
+      default: null
+  },
+  provider_data: {
+      type: {},
+      default: null
+  }
+});
+
+
 const userSchema = mongoose.Schema(
-  {
+  { 
     email: {
       type: String,
       lowercase: true,
-      trim: true,
       unique: true,
       required: true
     },
     password: {
       type: String,
-      required: true
+    },
+    uuid: {
+      type: String,
+    },
+    steamAuth: [ThirdSchema],
+    date: {
+      type: Date,
+      default: Date.now
     }
-  },
-  { timestamps: { createdAt: "created_at" } }
+  }
 );
 
-userSchema.methods = {
-  authenticate: function(password) {
-    return passwordHash.verify(password, this.password);
-  },
-  getToken: function() {
-    return jwt.encode(this, config.secret);
-  },
-  getEmail: function(token) {
-    if (jwt.encode(this, config.secret) == token)
-      return this.email;
-    return;
-  }
-};
-
-module.exports = mongoose.model("User", userSchema);
+module.exports = User = mongoose.model("User", userSchema);
