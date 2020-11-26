@@ -2,6 +2,7 @@ const bcrypt = require("bcryptjs");
 const User = require("../schema/schemaUser");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
+const SteamStrategy = require("passport-steam").Strategy;
 const { v4: uuidv4 } = require('uuid');
 
 passport.serializeUser((user, done) => {
@@ -54,19 +55,19 @@ passport.use('login',
     new LocalStrategy({ usernameField: "email" }, (email, password, done) => {
         // Match User
         User.findOne({ email: email })
-            .then(user => {
+            .then(userb => {
                 // Create new User
-                if (!user) {
+                if (!userb) {
                     return done(null, false, { message: "User does not exist" });
                 } else {
                     // Match password
-                    bcrypt.compare(password, user.password, (err, isMatch) => {
+                    bcrypt.compare(password, userb.password, (err, isMatch) => {
                         if (err) throw err;
 
                         if (isMatch) {
                             User.findOneAndUpdate({email: email}, {uuid: uuidv4()})
-                                .then(userb => {
-                                    return done(null, userb);
+                                .then(user => {
+                                    return done(null, user);
                                 });
                         } else {
                             return done(null, false, { message: "Wrong password" });
@@ -79,7 +80,7 @@ passport.use('login',
             });
     })
 );
-/*
+
 passport.use('steamLogin', 
     new SteamStrategy({
         returnURL: 'http://localhost:28000/auth/steam/return',
@@ -92,6 +93,5 @@ passport.use('steamLogin',
         });
     }
 ));
-*/
 
 module.exports = passport;
