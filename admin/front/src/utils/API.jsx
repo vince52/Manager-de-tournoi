@@ -73,7 +73,7 @@ export default {
         //return;
         let res = await axios.get(url + "/user/auth/steam");
         if (res.status === 302) {
-            window.open("http://localhost:8080/user/auth/steam", "_blank"); //HELP
+            window.open("http://localhost:8080/user/auth/steam", "_blank");
         } else {
             return false;
         }
