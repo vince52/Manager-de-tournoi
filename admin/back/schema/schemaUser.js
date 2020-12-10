@@ -1,44 +1,35 @@
 const mongoose = require("mongoose");
-const passwordHash = require("password-hash");
-const jwt = require("jwt-simple");
-const config = require("../config/config");
 
-const ThirdSchema = new mongoose.Schema({
-  provider_name: {
-      type: String,
-      default: null
-  },
-  provider_id: {
-      type: String,
-      default: null
-  },
-  provider_data: {
-      type: {},
-      default: null
-  }
-});
-
-
-const userSchema = mongoose.Schema(
-  { 
-    email: {
-      type: String,
-      lowercase: true,
-      unique: true,
-      required: true
+const userSchema = mongoose.Schema({
+    username: {
+        type: String,
+        required: false,
     },
     password: {
-      type: String,
+        type: String,
+        required: false,
     },
-    uuid: {
-      type: String,
+    email: {
+        type: String,
+        required: false,
     },
-    steamAuth: [ThirdSchema],
+    firstname: {
+        type: String,
+        required: false,
+    },
+    lastname: {
+        type: String,
+        required: false
+    },
     date: {
-      type: Date,
-      default: Date.now
+        type: Date,
+        default: Date.now
+    },
+    steam: {
+        type: Object,
+        required: false,
     }
-  }
-);
+
+});
 
 module.exports = User = mongoose.model("User", userSchema);

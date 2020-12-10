@@ -2,10 +2,10 @@ FROM node:14-alpine
 
 WORKDIR /app
 
-COPY . .
+#COPY . .
 
-RUN npm install
+#RUN npm install
 
-EXPOSE 28000
+EXPOSE 8080
 
 CMD ["node", "server.js"]
