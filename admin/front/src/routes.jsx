@@ -19,7 +19,8 @@ export const routes = [{
             { path: 'dashboard', element: < DashboardView /> },
             { path: 'account', element: < AccountView /> },
             { path: 'settings', element: < SettingsView /> },
-            { path: 'stea', element: < SettingsView /> },
+            { //path: 'steam', element: < SteamcallbackView /> 
+        },
         ]
     },
     {
