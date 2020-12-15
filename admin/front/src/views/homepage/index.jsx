@@ -7,6 +7,8 @@ import {
 
 import Page from 'src/components/Page';
 import Title from './DashboardView/Title';
+//import { Bracket } from 'react-tournament-bracket';
+import { render } from 'react-dom';
 
 const useStyles = makeStyles((theme) => ({
     root: {

@@ -1,17 +1,13 @@
 const mongoose = require("mongoose");
 
 const userSchema = mongoose.Schema({
-    username: {
-        type: String,
-        required: false,
-    },
     password: {
         type: String,
-        required: false,
+        required: true,
     },
     email: {
         type: String,
-        required: false,
+        required: true,
     },
     firstname: {
         type: String,
@@ -25,10 +21,18 @@ const userSchema = mongoose.Schema({
         type: Date,
         default: Date.now
     },
-    steam: {
-        type: Object,
-        required: false,
-    }
+    steamId: {
+        type: String,
+        required: false
+    },
+    name: {
+        type: String,
+        required: false
+    },
+    avatar: {
+        type: String,
+        required: false
+    },
 
 });
 
