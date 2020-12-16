@@ -80,7 +80,7 @@ export default {
     },
     SteamCallback: async function (openid) {
         try {
-            let res = await axios.get("/user/auth/steam/return", {openid})
+            await axios.get("/user/auth/steam/return", {openid})
             console.log('Steam success');
             return true;
         } catch (e) {

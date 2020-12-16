@@ -24,7 +24,7 @@ const SteamcallbackView = () => {
 
   var urlParams = new URLSearchParams(window.location.search);
 
-  var URL = "http://localhost:3000/app/steam/return" + urlParams.toString(); // true
+  //var URL = "http://localhost:3000/app/steam/return" + urlParams.toString(); // true
   const apireq = async () => {
     if (API.SteamCallback(urlParams.toString())) {
       console.log("OK");

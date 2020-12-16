@@ -4,6 +4,7 @@ import DashboardLayout from 'src/layouts/DashboardLayout';
 import MainLayout from 'src/layouts/MainLayout';
 import AccountView from 'src/views/account/AccountView';
 import DashboardView from 'src/views/homepage';
+import TournamentView from 'src/views/tournamentpage';
 import LoginView from 'src/views/auth/LoginView';
 import NotFoundView from 'src/views/errors/NotFoundView';
 import RegisterView from 'src/views/auth/RegisterView';
@@ -18,6 +19,7 @@ export const routes = [{
         element: < DashboardLayout /> ,
         children: [
             { path: 'dashboard', element: < DashboardView /> },
+            { path: 'tournament/:id', element: < TournamentView /> },
             { path: 'account', element: < AccountView /> },
             { path: 'settings', element: < SettingsView /> },
             { path: 'steam/return/', element: < SteamcallbackView /> },
