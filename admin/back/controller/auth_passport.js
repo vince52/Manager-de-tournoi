@@ -61,15 +61,17 @@ passport.use('local-sign_up', new LocalStrategy({ passReqToCallback: true }, fun
         })
 }))
 
-passport.use(new SteamStrategy({
-    returnURL: 'http://localhost:8080/user/auth/steam/return',
-    realm: 'http://localhost:8080/',
+passport.use('steam', new SteamStrategy({
+    returnURL: 'http://localhost:3000/app/steam/return/',
+    realm: 'http://localhost:3000/',
     apiKey: '3CCF5D84AD9A4CA0C817B6DEE608348E'
   },
-  function(identifier, profile, done) {
-    console.log("indentifier: ", identifier);
-    console.log("profile: ", profile);
-    console.log("done: ", done);
+  function(req, identifier, profile, done) {
+        console.log(req);
+        console.log("indentifier: ", identifier);
+        console.log("profile: ", profile);
+        console.log("done: ", done);
+        return done(null, 1)
   }
 ));
 

@@ -8,6 +8,7 @@ import LoginView from 'src/views/auth/LoginView';
 import NotFoundView from 'src/views/errors/NotFoundView';
 import RegisterView from 'src/views/auth/RegisterView';
 import SettingsView from 'src/views/settings/SettingsView';
+import SteamcallbackView from 'src/views/account/CallbackSteamView'
 
 //import API from './utils/API';
 import AuthComponent from './utils/AuthComponent'
@@ -19,9 +20,9 @@ export const routes = [{
             { path: 'dashboard', element: < DashboardView /> },
             { path: 'account', element: < AccountView /> },
             { path: 'settings', element: < SettingsView /> },
-            { //path: 'steam', element: < SteamcallbackView /> 
-        },
+            { path: 'steam/return/', element: < SteamcallbackView /> },
         ]
+
     },
     {
         path: '/',

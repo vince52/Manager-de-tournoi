@@ -77,5 +77,27 @@ export default {
         } else {
             return false;
         }
+    },
+    SteamCallback: async function (openid) {
+        try {
+            let res = await axios.get("/user/auth/steam/return", {openid})
+            console.log('Steam success');
+            return true;
+        } catch (e) {
+            console.log("Error: ", e);
+            return false;
+        }
+    },
+    GetAvatar: async function () {
+        try {
+            let steamids = "76561197960435530";
+            let key = "3CCF5D84AD9A4CA0C817B6DEE608348E" ;
+            let res = await axios.get("http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/", {key, steamids});
+            console.log('Steam success');
+            return res//.response.players[0].avatarmedium;
+        } catch (e) {
+            console.log("Error: ", e);
+            return false;
+        }
     }
 };

@@ -104,10 +104,11 @@ module.exports = function(app) {
     app.get("/auth/steam", passport.authenticate("steam", { session: false }));
 
     app.get(
-        "/auth/steam/return",
-        passport.authenticate("steam", { session: false }),
-        (req, res) => {
-            return res.status(200).json({ success: "OK" })
-        },
-      );
+        "/auth/steam/return", function(req, res, next) {
+            console.log(req.headers);
+            req.url = req.headers.referer;
+            next();
+        }, passport.authenticate("steam", {session: false}), function(req, res) {
+            return res.status(200).json({ success: "OK" });
+        });
 }

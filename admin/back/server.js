@@ -45,12 +45,13 @@ app.use(function(req, res, next) {
         "X-Requested-With,content-type"
     );
     // res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+    res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader(
         "Access-Control-Allow-Methods",
         "GET, POST, OPTIONS, PUT, PATCH, DELETE"
     );
     res.setHeader("Access-Control-Allow-Credentials", true);
+    res.setHeader("Access-Control-Allow-Origin", "*");
     next();
 });
 
@@ -89,6 +90,10 @@ const routerAnswerSheet = express.Router();
 const routerCourse = express.Router();
 
 app.use("/user", routerUser);
+routerUser.all('/*', function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    next();
+});
 require(__dirname + "/controller/user")(routerUser);
 
 app.use((req, res, next) => {
