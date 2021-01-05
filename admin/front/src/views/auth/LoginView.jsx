@@ -51,7 +51,7 @@ const LoginView = () => {
             onSubmit={(values) => {
               Api.login(values.email, values.password).then(res=>{
                 if (res)
-                    navigate('/app/dashboard', { replace: true });
+                    navigate('/app/browser', { replace: true });
             })
             }}
           >

@@ -34,14 +34,17 @@ const MyTournamentWidget = ({ className, ...rest }) => {
     const classes = useStyles();
     let banner_path = "";
     if (rest.gametype === "valorant")
-        banner_path = "/static/images/valorant_banner.jpg";
+        banner_path = "/static/images/valorant_vbanner.png";
     else if (rest.gametype === "r6")
-        banner_path = "/static/images/r6_banner.jpg";
+        banner_path = "/static/images/r6_vbanner.jpg";
     else
-        banner_path = "/static/images/csgo_banner.png";
+        banner_path = "/static/images/csgo_vbanner.jpg";
     return (
       <Card className={classes.root}>
         <CardMedia
+          width="160"
+          height="160"
+          component="img"
           className={classes.cover}
           image={banner_path}
         />

@@ -19,7 +19,7 @@ function update_info(req, res, next) {
     var id = req.params.id;
     if (!id)
         return res.status(401).json({ error: 'not connected' })
-    variable.main.savedid = id;
+    //variable.main.savedid = id;
     next();
 }
 
