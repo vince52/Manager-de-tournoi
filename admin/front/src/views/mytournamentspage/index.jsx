@@ -35,9 +35,37 @@ const Dashboard = () => {
           gamemode: "Competitive",
           creationDate: 0,
           beginningDate: 0,
-          endRegistrationDate: 0,
+          endRegistrationDate: "14/01/2021",
           cashprize: 10000,
           Timezone: "Eutope/Paris (UTC+1)"
+        },
+        {
+            id_tournament: 4,
+            name: "My Tournament Rainbow Six",
+            owners: [],
+            gametype: "r6",
+            nbTeamRegister: 5,
+            nbTeamLimit: 32,
+            gamemode: "3v3",
+            creationDate: 0,
+            beginningDate: 0,
+            endRegistrationDate: "14/01/2021",
+            cashprize: 4000,
+            Timezone: "Eutope/Paris (UTC+1)"
+        },
+        {
+            id_tournament: 5,
+            name: "My T",
+            owners: [],
+            gametype: "valorant",
+            nbTeamRegister: 5,
+            nbTeamLimit: 32,
+            gamemode: "3v3",
+            creationDate: 0,
+            beginningDate: 0,
+            endRegistrationDate: "14/01/2021",
+            cashprize: 4000,
+            Timezone: "Eutope/Paris (UTC+1)"
         }]
     }
     return (
@@ -54,6 +82,12 @@ const Dashboard = () => {
                     name={quest.name}
                     gametype={quest.gametype}
                     id_tournament={quest.id_tournament}
+                    nbTeamRegister={quest.nbTeamRegister}
+                    nbTeamLimit={quest.nbTeamLimit}
+                    gamemode={quest.gamemode}
+                    endRegistrationDate={quest.endRegistrationDate}
+                    cashprize={quest.cashprize}
+                    Timezone={quest.Timezone}
                     /></Grid>)}
                 </Grid>
             </Container>

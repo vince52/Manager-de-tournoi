@@ -2,7 +2,6 @@ export default [
   {
     '@id': '1',
     'id': '20c907d1-52cf-4c99-bbf7-1860847cd77e',
-    'version': 51,
     'created': 1465591789000,
     'updated': 1488233131148,
     'scheduled': 1499540400000,
@@ -15,38 +14,22 @@ export default [
     'gameGroup': {
       '@id': '2',
       'id': 'af2e7eaa-e07f-4886-971b-5c4e24c70406',
-      'version': 2,
       'created': 1465591789000,
       'updated': 1468864776000,
       'division': {
         '@id': '3',
         'id': 'a3000af2-a46d-43ec-a591-a04194fc0d59',
-        'version': 0,
         'created': 1465591787000,
         'updated': 1465591787000,
         'tourney': {
           '@id': '4',
           'id': '5a04e761-1ead-11e6-8725-0a6f139fd1a9',
-          'version': 0,
           'created': 1459805293000,
           'updated': 1459805293000,
           'name': 'FMT Test Tournament (Test)',
           'custom': false,
           'start': '2017-07-07',
           'end': '2017-07-31',
-          'location': {
-            '@id': '5',
-            'id': 'd5453948-15f5-11e6-8725-0a6f139fd1a9',
-            'address': {
-              'address1': '900 W Romeo Rd',
-              'address2': '',
-              'city': 'Romeoville',
-              'province': 'IL',
-              'postalCode': '60446',
-              'country': null
-            },
-            'latLng': { 'latitude': 34.1078987121582, 'longitude': -76.41929626464844, 'zoneId': 'America/New_York' }
-          },
           'accountId': 3789357,
           'timezone': 'America/Chicago',
           'color': 'A1D490',
@@ -61,7 +44,6 @@ export default [
             'league': {
               '@id': '7',
               'id': 'd5448fc4-15f5-11e6-8725-0a6f139fd1a9',
-              'version': 0,
               'created': 1427840878000,
               'updated': 1427840878000,
               'name': 'US High School Boys Basketball',
@@ -84,30 +66,15 @@ export default [
     'court': {
       '@id': '8',
       'id': '6f20ccd2-07ee-4f34-be63-75ba5557e8cd',
-      'version': 0,
       'created': 1465591789000,
       'updated': 1465591789000,
       'venue': {
         '@id': '9',
         'id': 'e21a3910-864d-4ab5-a418-c8481dfa88ae',
-        'version': 0,
         'created': 1465591788000,
         'updated': 1465591788000,
         'name': 'GET High',
         'nickname': 'GET High',
-        'location': {
-          '@id': '10',
-          'id': '059b0208-837d-4222-8045-8cd5636ca892',
-          'address': {
-            'address1': '17511 N Main St',
-            'address2': null,
-            'city': 'Galesville',
-            'province': 'WI',
-            'postalCode': '54630',
-            'country': null
-          },
-          'latLng': { 'latitude': 44.09364, 'longitude': -91.343106, 'zoneId': 'America/Chicago' }
-        },
         'tourney': { '@ref': '4' }
       },
       'name': 'COURT 2'
@@ -117,13 +84,11 @@ export default [
         'team': {
           '@id': '11',
           'id': '6ba0bba3-c7b7-4216-850d-ca0b2dffb14d',
-          'version': 3,
           'created': 1465591788000,
           'updated': 1486394002000,
           'pool': {
             '@id': '12',
             'id': 'c376aba2-e3b7-4262-ad93-ffd4dec1c159',
-            'version': 0,
             'created': 1465591788000,
             'updated': 1465591788000,
             'division': { '@ref': '3' },
@@ -147,13 +112,11 @@ export default [
         'team': {
           '@id': '13',
           'id': '3ecec587-9646-4050-b3b8-ff9ad8711f5e',
-          'version': 7,
           'created': 1465591788000,
           'updated': 1486394002000,
           'pool': {
             '@id': '14',
             'id': 'f014a79f-442f-4cf6-a602-54cca75b826f',
-            'version': 0,
             'created': 1465591787000,
             'updated': 1465591787000,
             'division': { '@ref': '3' },
@@ -189,7 +152,6 @@ export default [
   }, {
     '@id': '15',
     'id': '35b0745d-ef13-4255-8c40-c9daa95e4cc4',
-    'version': 10,
     'created': 1465591789000,
     'updated': 1488233111519,
     'scheduled': 1499551200000,
@@ -204,7 +166,6 @@ export default [
     'court': {
       '@id': '16',
       'id': 'ec7c9d92-c59a-450d-83df-2034d232f7b9',
-      'version': 0,
       'created': 1465591789000,
       'updated': 1465591789000,
       'venue': { '@ref': '9' },
@@ -218,11 +179,9 @@ export default [
           'sourceGame': {
             '@id': '17',
             'id': '5dd25794-429b-4a1b-9926-bca93438a799',
-            'version': 9,
             'created': 1465591789000,
             'updated': 1488233111466,
             'scheduled': 1499547600000,
-            'durationMinutes': null,
             'localDate': '2017-07-08',
             'accountUserEventData': [],
             'accountEventData': [],
@@ -239,14 +198,9 @@ export default [
                   'sourceGame': {
                     '@id': '18',
                     'id': 'b43e7160-9a6a-4fef-8d6a-1dfb73473653',
-                    'version': 10,
                     'created': 1465591789000,
                     'updated': 1488233148564,
                     'scheduled': 1499540400000,
-                    'durationMinutes': null,
-                    'localDate': '2017-07-08',
-                    'accountUserEventData': [],
-                    'accountEventData': [],
                     'name': 'B2',
                     'externalId': '17U-PB:2-PA:3',
                     'gameGroup': { '@ref': '2' },
@@ -303,7 +257,6 @@ export default [
                 'team': {
                   '@id': '19',
                   'id': '7237ea20-b342-46be-9148-4b57e990be76',
-                  'version': 3,
                   'created': 1465591788000,
                   'updated': 1484587054000,
                   'pool': { '@ref': '14' },
@@ -357,11 +310,9 @@ export default [
           'sourceGame': {
             '@id': '20',
             'id': 'b6e869cc-e6ad-4151-9186-5df828b45802',
-            'version': 46,
             'created': 1465591789000,
             'updated': 1488233131232,
             'scheduled': 1499547600000,
-            'durationMinutes': null,
             'localDate': '2017-07-08',
             'accountUserEventData': [],
             'accountEventData': [],
@@ -380,7 +331,6 @@ export default [
                 'team': {
                   '@id': '21',
                   'id': 'cf2cb3a0-3659-4bda-9a60-4ec9b373aa25',
-                  'version': 3,
                   'created': 1465591788000,
                   'updated': 1486394002000,
                   'pool': { '@ref': '12' },
