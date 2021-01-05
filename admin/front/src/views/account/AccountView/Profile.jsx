@@ -60,7 +60,7 @@ const Profile = ({ className, ...rest }) => {
             color="textSecondary"
             variant="body1"
           >
-            {`${moment().format('hh:mm A')} ${user.timezone}`}
+            {`${moment().format('hh:mm A')} ${user.userid}`}
           </Typography>
         </Box>
       </CardContent>
@@ -77,7 +77,7 @@ const Profile = ({ className, ...rest }) => {
           color="primary"
           fullWidth
           variant="text"
-          onClick={() => window.open("http://localhost:8080/user/auth/steam", "_blank")}
+          onClick={() => {window.open("http://localhost:8080/user/auth/steam/" + user.userid, "_blank", "width=800, height=600")}}
         >
           Connect to Steam
         </Button>

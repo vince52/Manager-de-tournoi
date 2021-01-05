@@ -3,7 +3,8 @@ import { Navigate } from 'react-router-dom';
 import DashboardLayout from 'src/layouts/DashboardLayout';
 import MainLayout from 'src/layouts/MainLayout';
 import AccountView from 'src/views/account/AccountView';
-import DashboardView from 'src/views/homepage';
+import BrowserView from 'src/views/tournamentbrowser';
+import MyTournamentsView from 'src/views/mytournamentspage';
 import TournamentView from 'src/views/tournamentpage';
 import LoginView from 'src/views/auth/LoginView';
 import NotFoundView from 'src/views/errors/NotFoundView';
@@ -18,7 +19,8 @@ export const routes = [{
         path: 'app',
         element: < DashboardLayout /> ,
         children: [
-            { path: 'dashboard', element: < DashboardView /> },
+            { path: 'browser', element: < BrowserView /> },
+            { path: 'mytournaments', element: < MyTournamentsView /> },
             { path: 'tournament/:id', element: < TournamentView /> },
             { path: 'account', element: < AccountView /> },
             { path: 'settings', element: < SettingsView /> },

@@ -96,6 +96,8 @@ routerUser.all('/*', function(req, res, next) {
 });
 require(__dirname + "/controller/user")(routerUser);
 
+app.set("view engine", "ejs");
+
 app.use((req, res, next) => {
     console.log("hello")
     if (req.isAuthenticated()) {

@@ -26,9 +26,14 @@ const user = {
 
 const items = [
   {
-    href: '/app/dashboard',
+    href: '/app/browser',
     icon: BarChartIcon,
-    title: 'Tournaments'
+    title: 'Tournament Browser'
+  },
+  {
+    href: '/app/mytournaments',
+    icon: BarChartIcon,
+    title: 'My Tournaments'
   },
   {
     href: '/app/account',

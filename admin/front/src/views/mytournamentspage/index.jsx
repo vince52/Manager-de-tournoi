@@ -5,13 +5,8 @@ import {
     makeStyles
 } from '@material-ui/core';
 
-import * as _ from 'underscore';
-import * as JSOG from 'jsog';
-import DEMO_DATA from './data';
-import { Bracket, BracketGame, BracketGenerator, Model } from 'react-tournament-bracket';
-import {render} from 'react-dom';
-
 import Page from 'src/components/Page';
+import MyTournamentWidget from './DashboardView/MyTournamentWidget';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -29,22 +24,41 @@ const useStyles = makeStyles((theme) => ({
 
 const Dashboard = () => {
     const classes = useStyles();
-    var games = JSOG.decode(DEMO_DATA);
-    const game: any = _.findWhere(games, { id: '35b0745d-ef13-4255-8c40-c9daa95e4cc4' });
-
+    const mytournaments1 = {
+        tournaments: [{
+          id_tournament: 1,
+          name: "The \"Gabe\" Tournament CSGO",
+          owners: [],
+          gametype: "csgo",
+          nbTeamRegister: 1,
+          nbTeamLimit: 2,
+          gamemode: "Competitive",
+          creationDate: 0,
+          beginningDate: 0,
+          endRegistrationDate: 0,
+          cashprize: 10000,
+          Timezone: "Eutope/Paris (UTC+1)"
+        }]
+    }
     return (
         <Page className = { classes.root } title = "Dashboard" >
             <Container maxWidth={false}>
-                Tournament !
                 <Grid
                     container
                     spacing={1}
                 >
-                    <Bracket game={game}/>
+                {mytournaments1.tournaments.map((quest, index) =>
+                <Grid item lg={3} sm={3} xl={3} xs={3}>
+                    <MyTournamentWidget
+                    key={index}
+                    name={quest.name}
+                    gametype={quest.gametype}
+                    id_tournament={quest.id_tournament}
+                    /></Grid>)}
                 </Grid>
             </Container>
         </Page>
-    );
+    )
 };
 
 export default Dashboard;

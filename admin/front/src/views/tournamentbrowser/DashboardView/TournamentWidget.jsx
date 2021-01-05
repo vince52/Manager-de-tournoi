@@ -51,7 +51,6 @@ const TournamentWidget = ({ className, ...rest }) => {
                 component="img"
                 className={classes.media}
                 image={banner_path}
-                title="CS:GO BANNER"
             />
             <CardContent style={{backgroundColor: "#23272A"}}>
             <Grid
