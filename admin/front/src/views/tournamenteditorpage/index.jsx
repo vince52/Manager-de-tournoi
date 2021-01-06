@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
       },
 }));
 
-const Dashboard = () => {
+const TournamentEditorPage = () => {
     const classes = useStyles();
     const mytournaments1 = {
         tournaments: [{
@@ -114,4 +114,4 @@ const Dashboard = () => {
     )
 };
 
-export default Dashboard;
+export default TournamentEditorPage;

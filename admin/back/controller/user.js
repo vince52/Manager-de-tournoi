@@ -90,7 +90,7 @@ module.exports = function(app) {
         let user = await User.findById(req.user.id);
         user.firstname = req.body.firstname
         user.lastname = req.body.lastname
-        user.username = req.body.username
+        user.email = req.body.username
         user.save().then(() => {
                 return res.status(200).json({ ok: true })
             })

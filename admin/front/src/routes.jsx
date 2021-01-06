@@ -5,6 +5,7 @@ import MainLayout from 'src/layouts/MainLayout';
 import AccountView from 'src/views/account/AccountView';
 import BrowserView from 'src/views/tournamentbrowser';
 import MyTournamentsView from 'src/views/mytournamentspage';
+import TournamentEditorView from 'src/views/tournamenteditorpage';
 import TournamentView from 'src/views/tournamentpage';
 import LoginView from 'src/views/auth/LoginView';
 import NotFoundView from 'src/views/errors/NotFoundView';
@@ -21,6 +22,7 @@ export const routes = [{
         children: [
             { path: 'browser', element: < BrowserView /> },
             { path: 'mytournaments', element: < MyTournamentsView /> },
+            { path: 'tournamenteditor', element: < TournamentEditorView /> },
             { path: 'tournament/:id', element: < TournamentView /> },
             { path: 'account', element: < AccountView /> },
             { path: 'settings', element: < SettingsView /> },
