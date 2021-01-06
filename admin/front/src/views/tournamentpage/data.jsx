@@ -7,8 +7,6 @@ export default [
     'scheduled': 1499540400000,
     'durationMinutes': null,
     'localDate': '2017-07-08',
-    'accountUserEventData': [],
-    'accountEventData': [],
     'name': 'B1',
     'externalId': '17U-PB:3-PA:2',
     'gameGroup': {
@@ -41,15 +39,6 @@ export default [
             'name': '2017 Test',
             'start': '2017-01-01',
             'end': '2017-12-31',
-            'league': {
-              '@id': '7',
-              'id': 'd5448fc4-15f5-11e6-8725-0a6f139fd1a9',
-              'created': 1427840878000,
-              'updated': 1427840878000,
-              'name': 'US High School Boys Basketball',
-              'gender': 'M',
-              'schoolGameLeagues': [ 'BOYS_HIGH_SCHOOL' ]
-            },
             'description': null
           },
           'sourceType': null,
@@ -68,15 +57,6 @@ export default [
       'id': '6f20ccd2-07ee-4f34-be63-75ba5557e8cd',
       'created': 1465591789000,
       'updated': 1465591789000,
-      'venue': {
-        '@id': '9',
-        'id': 'e21a3910-864d-4ab5-a418-c8481dfa88ae',
-        'created': 1465591788000,
-        'updated': 1465591788000,
-        'name': 'GET High',
-        'nickname': 'GET High',
-        'tourney': { '@ref': '4' }
-      },
       'name': 'COURT 2'
     },
     'sides': {
@@ -96,8 +76,8 @@ export default [
             'externalId': '17U-B',
             'type': 'Pool'
           },
-          'name': 'West Salem Panthers',
-          'externalId': '17U-WestSalemPanthers',
+          'name': 'Team Liquid',
+          'externalId': 'Team Liquid',
           'numGames': 2,
           'standing': {
             'rank': 3,
@@ -114,18 +94,8 @@ export default [
           'id': '3ecec587-9646-4050-b3b8-ff9ad8711f5e',
           'created': 1465591788000,
           'updated': 1486394002000,
-          'pool': {
-            '@id': '14',
-            'id': 'f014a79f-442f-4cf6-a602-54cca75b826f',
-            'created': 1465591787000,
-            'updated': 1465591787000,
-            'division': { '@ref': '3' },
-            'name': 'A',
-            'externalId': '17U-A',
-            'type': 'Pool'
-          },
-          'name': 'Cochrane Fountain City Pirates',
-          'externalId': '17U-CochraneFountainCityPirates',
+          'name': 'Vitality',
+          'externalId': 'Vitality',
           'numGames': 3,
           'standing': {
             'rank': 2,
@@ -149,28 +119,19 @@ export default [
     'homeScore': { 'score': 42, 'notes': null },
     'visitorScore': { 'score': 21, 'notes': null },
     'eventType': 'Game'
-  }, {
+  },
+
+
+  {
     '@id': '15',
     'id': '35b0745d-ef13-4255-8c40-c9daa95e4cc4',
     'created': 1465591789000,
     'updated': 1488233111519,
     'scheduled': 1499551200000,
-    'durationMinutes': null,
-    'localDate': '2017-07-08',
-    'accountUserEventData': [],
-    'accountEventData': [],
     'name': 'B5',
     'externalId': '17U-GB4:W-GB3:W',
     'gameGroup': { '@ref': '2' },
     'ignoreStandings': false,
-    'court': {
-      '@id': '16',
-      'id': 'ec7c9d92-c59a-450d-83df-2034d232f7b9',
-      'created': 1465591789000,
-      'updated': 1465591789000,
-      'venue': { '@ref': '9' },
-      'name': 'COURT 1'
-    },
     'sides': {
       'visitor': {
         'team': null,
@@ -260,8 +221,8 @@ export default [
                   'created': 1465591788000,
                   'updated': 1484587054000,
                   'pool': { '@ref': '14' },
-                  'name': 'Whitehall Norse',
-                  'externalId': '17U-WhitehallNorse',
+                  'name': 'Cloud 9',
+                  'externalId': '17U-Cloud 9',
                   'numGames': 2,
                   'standing': {
                     'rank': 1,
@@ -334,8 +295,8 @@ export default [
                   'created': 1465591788000,
                   'updated': 1486394002000,
                   'pool': { '@ref': '12' },
-                  'name': 'Westby Norsemen',
-                  'externalId': '17U-WestbyNorsemen',
+                  'name': 'TSM',
+                  'externalId': 'TSM',
                   'numGames': 2,
                   'standing': {
                     'rank': 1,

@@ -19,7 +19,7 @@ import {
 import NavItem from './NavItem';
 
 const user = {
-  avatar: '/static/images/avatars/avatar_6.png',
+  avatar: localStorage.getItem('avatar'),
   jobTitle: localStorage.getItem('userID'),
   name: localStorage.getItem('firstname') + " " + localStorage.getItem('lastname')
 };

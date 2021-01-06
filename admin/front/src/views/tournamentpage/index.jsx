@@ -35,11 +35,7 @@ const Dashboard = () => {
     return (
         <Page className = { classes.root } title = "Dashboard" >
             <Container maxWidth={false}>
-                Tournament !
-                <Grid
-                    container
-                    spacing={1}
-                >
+                <Grid container spacing={1}>
                     <Bracket game={game}/>
                 </Grid>
             </Container>

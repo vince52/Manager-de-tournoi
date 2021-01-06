@@ -61,7 +61,7 @@ const RegisterView = () => {
             onSubmit={(values) => {
                 Api.register(values.email, values.password, values.firstName, values.lastName).then(res=>{
                     if (res)
-                        navigate('/app/dashboard', { replace: true });
+                        navigate('/app/browser', { replace: true });
                 })
             }}
           >

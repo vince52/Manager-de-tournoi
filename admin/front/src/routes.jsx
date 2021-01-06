@@ -35,7 +35,8 @@ export const routes = [{
             { path: 'login', element: < LoginView /> },
             { path: 'register', element: < RegisterView /> },
             { path: '404', element: < NotFoundView /> },
-            { path: '/', element: <AuthComponent><Navigate to="/app/dashboard" /></AuthComponent>},
+            { path: '/', element: <AuthComponent><Navigate to="/app/browser" /></AuthComponent>},
+            
             // { path: '*', element: < Navigate to = "/404" /> }
         ]
     }

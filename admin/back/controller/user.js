@@ -1,7 +1,7 @@
 const express = require('express')
 const passport = require('passport')
 const User = require('../schema/schemaUser')
-var variable = require("./variable");
+var variabl = require("./variable");
 
 function auth(req, res, next) {
     console.log("try")
@@ -19,7 +19,8 @@ function update_info(req, res, next) {
     var id = req.params.id;
     if (!id)
         return res.status(401).json({ error: 'not connected' })
-    //variable.main.savedid = id;
+    variabl.setName(id);
+    console.log("TEST UPDATE INFO: ", variabl.getName());
     next();
 }
 
@@ -51,7 +52,7 @@ module.exports = function(app) {
                     console.log("err", user)
                 })
                 console.log("logged in", user)
-                return res.status(200).json({ userID: user.id, firstname: user.firstname, lastname: user.lastname });
+                return res.status(200).json({ userID: user.id, firstname: user.firstname, lastname: user.lastname, user: user });
             }
         })(req, res, next)
     })
@@ -113,11 +114,11 @@ module.exports = function(app) {
     
 
     // Affiliate with steam
-    app.get("/auth/steam/:id", update_info, passport.authenticate("steam", { session: false }));
+    app.get("/steam/auth/:id", update_info, passport.authenticate("steam", { session: false }));
     
     
     app.get(
-        "/auth/steam/return", passport.authenticate("steam", { session: false }), function(req, res, next) {
+        "/steam/return", passport.authenticate("steam", { session: false }), function(req, res, next) {
             const token = "test";
             res.render("authenticated", {
             token: token,

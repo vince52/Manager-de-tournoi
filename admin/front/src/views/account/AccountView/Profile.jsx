@@ -15,7 +15,7 @@ import {
 } from '@material-ui/core';
 
 const user = {
-  avatar: '/static/images/avatars/avatar_6.png',
+  avatar: localStorage.getItem('avatar'),
   userid: localStorage.getItem('userID'),
   name: localStorage.getItem('firstname') + " " + localStorage.getItem('lastname'),
   timezone: 'GTM-7'
@@ -77,11 +77,32 @@ const Profile = ({ className, ...rest }) => {
           color="primary"
           fullWidth
           variant="text"
-          onClick={() => {window.open("http://localhost:8080/user/auth/steam/" + user.userid, "_blank", "width=800, height=600")}}
+          onClick={() => {window.open("http://localhost:8080/user/steam/auth/" + user.userid, "_blank", "width=800, height=600")}}
+
         >
           Connect to Steam
         </Button>
       </CardActions>
+      {localStorage.getItem('name') ?
+      <CardContent>
+      
+        <Box
+          alignItems="center"
+          display="flex"
+          flexDirection="column"
+        >
+          
+          <Typography
+            className={classes.dateText}
+            color="textSecondary"
+            variant="body1"
+          >
+            {localStorage.getItem('name') ? "Connected with: " + localStorage.getItem('name') : ""}
+          </Typography>
+        </Box>
+        
+      </CardContent>
+      : ""}
     </Card>
   );
 };

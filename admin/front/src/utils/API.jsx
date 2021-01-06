@@ -9,10 +9,17 @@ export default {
             const { data: response, status: statusid } = await axios.post('/user/login', body);
             if (statusid === 200) {
                 console.log("logged in", response.firstname, response.lastname)
-                localStorage.setItem("firstname", response.firstname);
-                localStorage.setItem("lastname", response.lastname);
-                localStorage.setItem("email", email);
-                localStorage.setItem("userID", response.userID);
+                localStorage.setItem("firstname", response.user.firstname);
+                localStorage.setItem("lastname", response.user.lastname);
+                localStorage.setItem("email", response.user.email);
+                localStorage.setItem("userID", response.user._id);
+                // {"userID":"5ff583724a2135a2321481a0","firstname":"test","lastname":"test","user":{"_id":"5ff583724a2135a2321481a0","email":"test@test.fr","password":"test","firstname":"test","lastname":"test","date":"2021-01-06T09:31:30.091Z","__v":0,"avatar":"https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/4c/4c76064be169987500e4c7e228aabe3e33e1df47.jpg","name":"vince52","steamId":"76561198018100252"}}
+                if (response.user.avatar)
+                    localStorage.setItem("avatar", response.user.avatar);
+                if (response.user.name)
+                    localStorage.setItem("name", response.user.name);
+                if (response.user.steamId)
+                    localStorage.setItem("steamId", response.user.steamId);
                 return true
             }
         } catch (err) {

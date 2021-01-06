@@ -25,7 +25,7 @@ const AuthComponent = (props) => {
         fetchApi();
     }, [])
         if (isAuth) {
-            return (<Navigate to="/app/dashboard" />)
+            return (<Navigate to="/app/browser" />)
         } else if (isAuth !== undefined) {
             return (<Navigate to="/login" />)
         } else {

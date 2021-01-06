@@ -2,7 +2,7 @@ const passport = require('passport');
 const LocalStrategy = require("passport-local").Strategy;
 const SteamStrategy = require("passport-steam").Strategy;
 const User = require("../schema/schemaUser");
-const variable = require("./variable");
+const variabl = require("./variable");
 
 passport.serializeUser(function(user, done) {
     done(null, user.id);
@@ -61,10 +61,9 @@ passport.use('local-sign_up', new LocalStrategy({ passReqToCallback: true }, fun
             if (err) { return done(err); }
         })
 }))
-let savedid = "";
 
 passport.use('steam', new SteamStrategy({
-    returnURL: 'http://localhost:8080/user/auth/steam/return',
+    returnURL: 'http://localhost:8080/user/steam/return',
     realm: 'http://localhost:8080/',
     apiKey: '3CCF5D84AD9A4CA0C817B6DEE608348E'
   },
@@ -73,9 +72,10 @@ passport.use('steam', new SteamStrategy({
         //console.log(variable.main.savedid);
         console.log("indentifier: ", profile._json);
         console.log("profile: ", profile);
-        let user = await User.findOne({steamId: profile._json.steamid})
+        let user = await User.findOne({_id: variabl.getName()})
         if (!user) {
             console.log("test0");
+            return done(null, false, { message: 'no user exist.' });
             //let user2 = await User.findOne({_id : savedid})
             //if (!user2)
             //     return done(null, false, {err: "Error"});
@@ -88,9 +88,12 @@ passport.use('steam', new SteamStrategy({
             // .catch(err => {return done(null, false, { message: 'already exist.' });})
             // console.log("test3");
         }
-
-        return done(null, user)
-  }
-));
+        user.steamId = profile._json.steamid;
+        user.name =  profile._json.personaname;
+        user.avatar = profile._json.avatar;
+        console.log("TEST VAR: ", variabl.getName());
+        user.save().then(user => {return done(null, user)})
+            .catch(err => {return done(e, null);})
+    }))
 
 module.exports = passport;

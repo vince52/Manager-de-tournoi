@@ -44,6 +44,7 @@ const MyTournamentWidget = ({ className, ...rest }) => {
         className={clsx(classes.root, className)}
         {...rest}
         to={"/app/mytournaments/" + rest.id_tournament}
+        component={RouterLink}
       >
         <Grid
           container

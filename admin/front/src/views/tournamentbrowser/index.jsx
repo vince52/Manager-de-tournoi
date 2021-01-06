@@ -97,7 +97,7 @@ const Dashboard = () => {
         }]
       }
     return (
-        <Page className = { classes.root } title = "Dashboard" >
+        <Page className = { classes.root } title = "Tournament Browser" >
             <Container maxWidth={false}>
                 <Grid
                     container

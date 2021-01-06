@@ -2,8 +2,13 @@ import React from 'react';
 import {
     Container,
     Grid,
-    makeStyles
+    makeStyles,
+    Card,
+    CardContent,
+    Box,
+    Typography
 } from '@material-ui/core';
+import AddIcon from '@material-ui/icons/Add';
 
 import Page from 'src/components/Page';
 import MyTournamentWidget from './DashboardView/MyTournamentWidget';
@@ -24,6 +29,12 @@ const useStyles = makeStyles((theme) => ({
 
 const Dashboard = () => {
     const classes = useStyles();
+    var cardStyle = {
+        display: 'block',
+        width: '30vw',
+        transitionDuration: '0.3s',
+        height: '45vw'
+    }
     const mytournaments1 = {
         tournaments: [{
           id_tournament: 1,
@@ -69,7 +80,7 @@ const Dashboard = () => {
         }]
     }
     return (
-        <Page className = { classes.root } title = "Dashboard" >
+        <Page className = { classes.root } title = "Tournaments" >
             <Container maxWidth={false}>
                 <Grid
                     container
@@ -89,6 +100,16 @@ const Dashboard = () => {
                     cashprize={quest.cashprize}
                     Timezone={quest.Timezone}
                     /></Grid>)}
+                <Grid item lg={3} sm={3} xl={3} xs={3} style={cardStyle}>
+                    <Card variant="outlined" height="300">
+                        <CardContent>
+                            <Typography>
+                                Create Tournament
+                            </Typography>
+                            <AddIcon/>
+                        </CardContent>
+                    </Card>
+                </Grid>
                 </Grid>
             </Container>
         </Page>
