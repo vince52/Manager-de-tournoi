@@ -1,5 +1,8 @@
 const express = require('express')
 const passport = require('passport')
+const f = require('../schema/Action')
+const g = require('../schema/Game')
+const t = require('../schema/Tree')
 const User = require('../schema/schemaUser')
 const Tournament = require('../schema/schemaTournament')
 
@@ -41,7 +44,7 @@ module.exports = function(app) {
 
             let tournament;
             await new Tournament({ name: name, owners: owners, gameType: gameType, gameMode: gameMode, nbTeamLimit: nbTeamLimit}).save().then( a => {
-                // Useless now
+                return res.status(400).json({ tournament: a})
             }).catch(e => {
                 console.log(e)
                 return res.status(400).json({ error: e})
@@ -54,7 +57,9 @@ module.exports = function(app) {
     })
 
     app.post('/update', auth, (req, res) => {
-        Tournament.findOne({_id : tourmanemntid}).then(tourn => {
+        if (!req.body.tournamentid)
+            return req.status(400).json( {error: "bad request"})
+        Tournament.findOne({_id : req.body.tournamentid}).then(tourn => {
             if (tourn.owners[0]._id === req.user.id) {
                 let name = req.body.name
 
@@ -96,12 +101,39 @@ module.exports = function(app) {
     // FOR USERS:
     // Register to a tournament
     app.post('/join', auth, (req, res) => {
-        if (req.id) {
-
-        }
+        if (!req.body.tournamentid)
+            return res.status(400).json({error: "Bad request"})
+        User.findOne({_id : req.user._id}).then(user => {
+            Tournament.findOne({_id: tourmanemntid}).then(tournament => {
+                tournament.
+            })
+        })
     })
     // Leave the tournament
     app.post('/leave', auth, (req, res) => {})
-    app.get('/getAll', auth, (req, res) => {})
+
+    app.get('/start', auth, (req, res) => {
+        Tournament.findOne({_id : tourmanemntid}).then(tourn => {
+            if (tourn.nbTeamLimit == tourn.nbTeamRegistered)
+                tourn.BinTree = new t.BinaryTree(tourn.registeredTeams)
+        })
+    })
+
+    app.post('/declareWinner', auth, (req, res) => {
+        Tournament.findOne({_id : tourmanemntid}).then(tourn => {
+            if(req.body.TeamName)
+                tourn.BinTree.root = t.TeamWon(tourn.BinTree.root, req.body.TeamName)
+        })
+    })
+
+    app.get('/getAll', auth, (req, res) => {
+        Tournament.find({}, function(err, tournaments) {
+            var tournamentmap = {}
+            tournaments.forEach(function(tournament) {
+                tournamentmap[tournament._id] = tournament;
+            })
+            return res.status(200).json({tournaments: tournamentmap})
+        })
+    })
     app.post('/updateTeam', auth, (req, res) => {})
 }

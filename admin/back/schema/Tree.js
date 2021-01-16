@@ -79,19 +79,4 @@ module.exports = {
             this.right = right; 
         } 
     },
-    Tournament : class Tournament {
-        constructor(size, list) {
-          this.ok;
-          var pow2 = isPowOfTwo(size);
-          if (pow2 == -1 || list.length != size || size == 1) 
-          {
-            this.ok = false;
-          }
-          else
-          {
-            this.ok = true;
-            this.Tree = new module.exports.BinaryTree(list);
-          } 
-        }
-    },
 }
