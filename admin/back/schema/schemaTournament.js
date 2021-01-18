@@ -22,24 +22,25 @@ const tournamentSchema = mongoose.Schema({
         require: false
     },
     nbTeamRegistered: {
-        type: Int,
+        type: Number,
         default: 0
     },
-    registeredTeams: [new g.Team("1"), new g.Team("2"),
-                      new g.Team("3"), new g.Team("4"),
-                      new g.Team("5"), new g.Team("6"),
-                      new g.Team("7"), new g.Team("8"), // To empty later
-                      new g.Team("9"), new g.Team("10"),
-                      new g.Team("11"),new g.Team("12"),
-                      new g.Team("13"),new g.Team("14"),
-                      new g.Team("15"),new g.Team("16")],
+    registeredTeams: [],
+                    //   new g.Team("1"), new g.Team("2"),
+                    //   new g.Team("3"), new g.Team("4"),
+                    //   new g.Team("5"), new g.Team("6"),
+                    //   new g.Team("7"), new g.Team("8"), // To empty later
+                    //   new g.Team("9"), new g.Team("10"),
+                    //   new g.Team("11"),new g.Team("12"),
+                    //   new g.Team("13"),new g.Team("14"),
+                    //   new g.Team("15"),new g.Team("16")],
     matchs: [],
-    BinTree: {
+    /*BinTree: {
         type: t.BinaryTree,
         require : false
-    },
+    }, */
     nbTeamLimit: {
-        type: Int,
+        type: Number,
         require: false
     },
     beginningDate: {

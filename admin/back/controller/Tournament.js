@@ -25,7 +25,7 @@ module.exports = function(app) {
         try {
             let name = req.body.name
 
-            let owner = await User.findById(req.user.id)
+            let owner = User.findById(req.user.id)
             let owners = []
             owners.push(owner)
 
@@ -43,7 +43,7 @@ module.exports = function(app) {
                 nbTeamLimit = 16
 
             let tournament;
-            await new Tournament({ name: name, owners: owners, gameType: gameType, gameMode: gameMode, nbTeamLimit: nbTeamLimit}).save().then( a => {
+            new Tournament({ name: name, owners: owners, gameType: gameType, gameMode: gameMode, nbTeamLimit: nbTeamLimit}).save().then( a => {
                 return res.status(400).json({ tournament: a})
             }).catch(e => {
                 console.log(e)
@@ -63,7 +63,7 @@ module.exports = function(app) {
             if (tourn.owners[0]._id === req.user.id) {
                 let name = req.body.name
 
-                tourn.owner = await User.findById(req.user.id)
+                tourn.owner = User.findById(req.user.id)
                 let owners = []
                 owners.push(owner)
 
@@ -89,7 +89,7 @@ module.exports = function(app) {
     // need tourmanemntid
     app.post('/delete', auth, (req, res) => {
         try {
-            let owner = await User.findById(req.user.id);
+            let owner = User.findById(req.user.id);
             Tournament.findOneAndDelete({_id : req.body.tourmanemntid})
         } catch(e) {
             console.log(e);
@@ -105,7 +105,7 @@ module.exports = function(app) {
             return res.status(400).json({error: "Bad request"})
         User.findOne({_id : req.user._id}).then(user => {
             Tournament.findOne({_id: tourmanemntid}).then(tournament => {
-                tournament.
+                //tournament.
             })
         })
     })

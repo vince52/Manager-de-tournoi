@@ -84,7 +84,7 @@ app.all('/*', function(req, res, next) {
 // Controllers:
 
 const routerUser = express.Router();
-const routerQuestion = express.Router();
+const routerTeams = express.Router();
 const routerAssignement = express.Router();
 const routerAnswerSheet = express.Router();
 const routerCourse = express.Router();
@@ -95,6 +95,13 @@ routerUser.all('/*', function(req, res, next) {
     next();
 });
 require(__dirname + "/controller/user")(routerUser);
+
+app.use("/team", routerTeams);
+routerTeams.all('/*', function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    next();
+});
+require(__dirname + "/controller/team")(routerTeams);
 
 app.set("view engine", "ejs");
 
