@@ -1,7 +1,7 @@
 const express = require('express')
 const passport = require('passport')
 const User = require('../schema/schemaUser')
-const Teams = require('../schema/SchemaTeam')
+const Teams = require('../schema/schemaTeam')
 const Tournament = require('./Tournament')
 
 function auth(req, res, next) {

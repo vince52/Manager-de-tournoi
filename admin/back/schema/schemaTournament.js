@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const { schema } = require("./schemaUser");
 const f = require('./Action')
 const g = require('./Game')
 const t = require('./Tree')
@@ -9,10 +8,10 @@ const tournamentSchema = mongoose.Schema({
         type: String,
         require: true
     },
-    owners: [{
+    owners: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
-    }],
+    },
     gameType: {
         type: String,
         require: true
@@ -25,15 +24,10 @@ const tournamentSchema = mongoose.Schema({
         type: Number,
         default: 0
     },
-    registeredTeams: [],
-                    //   new g.Team("1"), new g.Team("2"),
-                    //   new g.Team("3"), new g.Team("4"),
-                    //   new g.Team("5"), new g.Team("6"),
-                    //   new g.Team("7"), new g.Team("8"), // To empty later
-                    //   new g.Team("9"), new g.Team("10"),
-                    //   new g.Team("11"),new g.Team("12"),
-                    //   new g.Team("13"),new g.Team("14"),
-                    //   new g.Team("15"),new g.Team("16")],
+    registeredTeams: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Teams"
+    }],
     matchs: [],
     /*BinTree: {
         type: t.BinaryTree,

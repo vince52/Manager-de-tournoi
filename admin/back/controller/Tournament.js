@@ -21,13 +21,13 @@ module.exports = function(app) {
     
     // FOR ADMIN:
     // create a tournament
-    app.post('/create', auth, (req, res) => {
+    app.post('/create', auth, async function(req, res) {
         try {
             let name = req.body.name
 
-            let owner = User.findById(req.user.id)
+            let owner = User.findById(req.user._id)
             let owners = []
-            owners.push(owner)
+            owners = owner
 
             let gameType = req.body.gameType
             let gameMode;
@@ -42,8 +42,8 @@ module.exports = function(app) {
             else
                 nbTeamLimit = 16
 
-            let tournament;
-            new Tournament({ name: name, owners: owners, gameType: gameType, gameMode: gameMode, nbTeamLimit: nbTeamLimit}).save().then( a => {
+            const newtournament = Tournament({ name: name, owners: owners, gameType: gameType, gameMode: gameMode, nbTeamLimit: nbTeamLimit})
+            newtournament.save().then( a => {
                 return res.status(400).json({ tournament: a})
             }).catch(e => {
                 console.log(e)
@@ -57,32 +57,32 @@ module.exports = function(app) {
     })
 
     app.post('/update', auth, (req, res) => {
-        if (!req.body.tournamentid)
-            return req.status(400).json( {error: "bad request"})
-        Tournament.findOne({_id : req.body.tournamentid}).then(tourn => {
-            if (tourn.owners[0]._id === req.user.id) {
-                let name = req.body.name
+        try {
+            if (!req.body.tournamentid)
+                return req.status(400).json( {error: "bad request"})
+            Tournament.findOne({_id : req.body.tournamentid}).then(tourn => {
+                if (tourn.owners[0]._id === req.user._id) {
+                    
+                    if (req.body.name)
+                        tourn.name = req.body.name
+                    if (req.user._id)
+                        tourn.owner = req.user._id
+                    if (req.body.gameType)
+                        tourn.gameType = req.body.gameType
+                    if (req.body.gameMode)
+                        tourn.gameMode = req.body.gameMode
 
-                tourn.owner = User.findById(req.user.id)
-                let owners = []
-                owners.push(owner)
+                    let nbTeamLimit;
+                    if (req.body.nbTeamLimit)
+                        tourn.nbTeamRegistered = req.body.nbTeamLimit
 
-                tourn.gameType = req.body.gameType
-                let gameMode;
-                if (req.body.gameMode)
-                    gameMode = req.body.gameMode
-                else
-                    gameMode = "competitive"
-
-                let nbTeamLimit;
-                if (req.body.nbTeamLimit)
-                    nbTeamLimit = req.body.nbTeamLimit
-                else
-                    nbTeamLimit = 16
-
-                let tournament;
-            }
-        })
+                    tourn.save().then(tourna => {return res.status(200).json({tournament: tourna})}).catch(err => {return res.status(400).json({ error: err})})
+                }
+            })
+        } catch(e) {
+            console.log(e)
+            return res.status(400).json({ error: e})
+        }
         
     })
 
@@ -101,16 +101,41 @@ module.exports = function(app) {
     // FOR USERS:
     // Register to a tournament
     app.post('/join', auth, (req, res) => {
-        if (!req.body.tournamentid)
-            return res.status(400).json({error: "Bad request"})
-        User.findOne({_id : req.user._id}).then(user => {
+        try {
+            if (!req.body.tournamentid)
+                return res.status(400).json({error: "Bad request"})
+            if (!req.body.teamid)
+                return res.status(400).json({error: "Bad request"})
             Tournament.findOne({_id: tourmanemntid}).then(tournament => {
-                //tournament.
+                tournament.registeredTeams.push(req.body.teamid)
+                tournament.save(tourn => {return res.status(200).json({tournament: tourn})})
             })
-        })
+        } catch(e) {
+            console.log(e);
+            return res.status(400).json({ error: e });
+        }
     })
     // Leave the tournament
-    app.post('/leave', auth, (req, res) => {})
+    app.post('/leave', auth, (req, res) => {
+        try {
+            if (!req.body.tournamentid)
+                return res.status(400).json({error: "Bad request"})
+            if (!req.body.teamid)
+                return res.status(400).json({error: "Bad request"})
+
+            return res.status(200).json({tournament: tourn})
+
+            // TO DO
+
+            // Tournament.findOne({_id: tourmanemntid}).then(tournament => {
+            //     tournament.registeredTeams.push(req.body.teamid)
+            //     tournament.save(tourn => {return res.status(200).json({tournament: tourn})})
+            // })
+        } catch(e) {
+            console.log(e);
+            return res.status(400).json({ error: e });
+        }
+    })
 
     app.get('/start', auth, (req, res) => {
         Tournament.findOne({_id : tourmanemntid}).then(tourn => {
