@@ -1,18 +1,17 @@
-import React from 'react';
+import React, {Component} from 'react';
 import {
-    Container,
-    Grid,
     makeStyles,
-    Card,
-    Box,
-    CardContent,
+    Grid,
     Typography
 } from '@material-ui/core';
-import AddIcon from '@material-ui/icons/Add';
-import {Link as RouterLink} from 'react-router-dom';
-
+import { withStyles } from "@material-ui/core/styles";
 import Page from 'src/components/Page';
-import MyTournamentWidget from './DashboardView/MyTournamentWidget';
+
+const WhiteTextTypography = withStyles({
+    root: {
+      color: "#FFFFFF"
+    }
+  })(Typography);
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -28,88 +27,88 @@ const useStyles = makeStyles((theme) => ({
       },
 }));
 
+class UserForm extends Component {
+    constructor() {
+      super();
+      this.state = {
+        Name: '',
+        nbPlayers: '',
+        Gamemode: '',
+        Rewards: '',
+        TournamentDate: ''
+      };
+    }
+
+    onChange = (e) => {
+      /*
+        Because we named the inputs to match their
+        corresponding values in state, it's
+        super easy to update the state
+      */
+      this.setState({ [e.target.name]: e.target.value });
+    }
+
+    onSubmit = (e) => {
+        e.preventDefault();
+        // get our form data out of state
+        const { Name, nbPlayers, Gamemode, Rewards, TournamentDate } = this.state;
+
+      }
+
+    render() {
+      const { Name, nbPlayers, Gamemode } = this.state;
+      return (
+        <form onSubmit={this.onSubmit}>
+        <Grid
+            container
+            direction="column"
+        >
+            <Grid item>
+            <WhiteTextTypography>Name:</WhiteTextTypography>
+            <input
+                type="text"
+                name="Name"
+                value={Name}
+                onChange={this.onChange}
+            />
+            </Grid>
+            <Grid item>
+            <WhiteTextTypography>Game:</WhiteTextTypography>
+            <select>
+            <option selected value="csgo">CS : GO</option>
+            <option value="r6">Rainbow 6 : Seige</option>
+            <option value="valorant">Valorant</option>
+            </select>
+            </Grid>
+            <Grid item>
+            <input
+                type="text"
+                name="nbPlayers"
+                value={nbPlayers}
+                onChange={this.onChange}
+            />
+            </Grid>
+            <Grid item>
+            <input
+                type="text"
+                name="Gamemode"
+                value={Gamemode}
+                onChange={this.onChange}
+            />
+            <button type="submit">Submit</button>
+            </Grid>
+        </Grid>
+        </form>
+      );
+    }
+  }
+
 const TournamentEditorPage = () => {
     const classes = useStyles();
-    const mytournaments1 = {
-        tournaments: [{
-          id_tournament: 1,
-          name: "The \"Gabe\" Tournament CSGO",
-          owners: [],
-          gametype: "csgo",
-          nbTeamRegister: 1,
-          nbTeamLimit: 2,
-          gamemode: "Competitive",
-          creationDate: 0,
-          beginningDate: 0,
-          endRegistrationDate: "14/01/2021",
-          cashprize: 10000,
-          Timezone: "Eutope/Paris (UTC+1)"
-        },
-        {
-            id_tournament: 4,
-            name: "My Tournament Rainbow Six",
-            owners: [],
-            gametype: "r6",
-            nbTeamRegister: 5,
-            nbTeamLimit: 32,
-            gamemode: "3v3",
-            creationDate: 0,
-            beginningDate: 0,
-            endRegistrationDate: "14/01/2021",
-            cashprize: 4000,
-            Timezone: "Eutope/Paris (UTC+1)"
-        },
-        {
-            id_tournament: 5,
-            name: "My T",
-            owners: [],
-            gametype: "valorant",
-            nbTeamRegister: 5,
-            nbTeamLimit: 32,
-            gamemode: "3v3",
-            creationDate: 0,
-            beginningDate: 0,
-            endRegistrationDate: "14/01/2021",
-            cashprize: 4000,
-            Timezone: "Eutope/Paris (UTC+1)"
-        }]
-    }
     return (
-        <Page className = { classes.root } title = "Tournaments" >
-            <Container maxWidth={false}>
-                <Grid
-                    container
-                    spacing={1}
-                >
-                {mytournaments1.tournaments.map((quest, index) =>
-                <Grid item lg={3} sm={3} xl={3} xs={3}>
-                    <MyTournamentWidget
-                    key={index}
-                    name={quest.name}
-                    gametype={quest.gametype}
-                    id_tournament={quest.id_tournament}
-                    nbTeamRegister={quest.nbTeamRegister}
-                    nbTeamLimit={quest.nbTeamLimit}
-                    gamemode={quest.gamemode}
-                    endRegistrationDate={quest.endRegistrationDate}
-                    cashprize={quest.cashprize}
-                    Timezone={quest.Timezone}
-                    /></Grid>)}
-                <Grid item lg={3} sm={3} xl={3} xs={3} style={{ border: '1px solid #aaa', height: '200px', }}>
-                    <Card
-                        to={"/app/tournamentcreator/"}
-                        component={RouterLink}
-                    >
-                        <CardContent textAlign="center">
-                            <Typography>
-                                Create Tournament
-                            </Typography>
-                            <AddIcon/>
-                        </CardContent>
-                    </Card>
-                </Grid>
-                </Grid>
-            </Container>
+        <Page className = { classes.root } title = "Tournamenteditor" >
+            <WhiteTextTypography variant="h1">New Tournament</WhiteTextTypography>
+            <UserForm/>
         </Page>
     )
 };
