@@ -4,7 +4,6 @@ import {
     Grid,
     makeStyles,
     Card,
-    Box,
     CardContent,
     Typography
 } from '@material-ui/core';

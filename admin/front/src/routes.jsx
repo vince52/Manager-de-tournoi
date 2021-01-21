@@ -22,7 +22,7 @@ export const routes = [{
         children: [
             { path: 'browser', element: < BrowserView /> },
             { path: 'mytournaments', element: < MyTournamentsView /> },
-            { path: 'tournamenteditor', element: < TournamentEditorView /> },
+            { path: 'tournamentcreator', element: < TournamentEditorView /> },
             { path: 'tournament/:id', element: < TournamentView /> },
             { path: 'account', element: < AccountView /> },
             { path: 'settings', element: < SettingsView /> },
