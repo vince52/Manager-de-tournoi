@@ -51,7 +51,7 @@ class UserForm extends Component {
     onSubmit = (e) => {
         e.preventDefault();
         // get our form data out of state
-        const { Name, nbPlayers, Gamemode, Rewards, TournamentDate } = this.state;
+        //const { Name, nbPlayers, Gamemode, Rewards, TournamentDate } = this.state;
 
       }
 

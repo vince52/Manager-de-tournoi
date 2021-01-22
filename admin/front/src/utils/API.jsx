@@ -110,7 +110,7 @@ export default {
     createTeam: async function (name, pass) {
         try {
             let body = {name: name, password: pass}
-            let res = await axios.post("/team/create", body);
+            await axios.post("/team/create", body);
         } catch (e) {
             console.log("Error: ", e);
             return false;

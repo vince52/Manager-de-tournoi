@@ -9,7 +9,7 @@ import {
 } from '@material-ui/core';
 import {Link as RouterLink} from 'react-router-dom';
 import Page from 'src/components/Page';
-import TournamentWidget from './DashboardView/TournamentWidget';
+//import TournamentWidget from './DashboardView/TournamentWidget';
 import AddIcon from '@material-ui/icons/Add';
 import API from '../../utils/API';
 

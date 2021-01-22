@@ -52,13 +52,14 @@ const Dashboard = () => {
                     spacing={1}
                 >
                 {tournaments.map((quest, index) =>
-                <Grid item lg={3} sm={3} xl={3} xs={3}>
-                    <TournamentWidget
-                        key={index}
-                        name={quest.name}
-                        gametype={quest.gametype}
-                        _id={quest._id}
-                    /></Grid>)}
+                    <Grid item lg={3} sm={3} xl={3} xs={3}>
+                        <TournamentWidget
+                            key={index}
+                            name={quest.name}
+                            gametype={quest.gametype}
+                            _id={quest._id}
+                        />
+                    </Grid>)}
                 </Grid>
             </Container>
         </Page>
