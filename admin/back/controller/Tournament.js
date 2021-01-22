@@ -152,8 +152,8 @@ module.exports = function(app) {
     })
 
     app.get('/getAll', auth, (req, res) => {
-        Tournament.find({}, function(err, tournaments) {
-            var tournamentmap = []
+        var tournamentmap = []
+        Tournament.find().populate('registeredTeams').exec(function(err, tournaments) {
             tournaments.forEach(function(tournament) {
                 tournamentmap.push(tournament);
             })

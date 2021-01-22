@@ -34,7 +34,8 @@ const Dashboard = () => {
             API.getTournaments().then(res=>{
                 console.log(res)
                 if (res.tournaments !== undefined) {
-                    setTournaments(res.tournaments)
+                    setTournaments(res.tournaments) 
+                    localStorage.setItem('allTournaments', JSON.stringify(res.tournaments))
                 }
             }).catch(e=>{
                 console.log(e)

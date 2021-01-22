@@ -9,7 +9,7 @@ import {
 } from '@material-ui/core';
 import {Link as RouterLink} from 'react-router-dom';
 import Page from 'src/components/Page';
-//import TournamentWidget from './DashboardView/TournamentWidget';
+import TournamentWidget from './DashboardView/TournamentWidget';
 import AddIcon from '@material-ui/icons/Add';
 import API from '../../utils/API';
 
@@ -56,7 +56,8 @@ const Dashboard = () => {
                 >
                 {teams.map((quest, index) =>
                 <Grid item lg={3} sm={3} xl={3} xs={3}>
-                    <h1>{quest.name}</h1></Grid>)}
+                    <TournamentWidget name={quest.name}/>
+                </Grid>)}
                 </Grid>
                 <Grid item lg={3} sm={3} xl={3} xs={3} style={{ border: '1px solid #aaa', height: '200px', }}>
                     <Card
