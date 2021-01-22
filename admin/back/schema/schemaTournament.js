@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const f = require('./Action')
 const g = require('./Game')
-const t = require('./Tree')
+//const t = require('./Tree')
 
 const tournamentSchema = mongoose.Schema({
     name: {
@@ -28,11 +28,10 @@ const tournamentSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "Teams"
     }],
-    matchs: [],
-    /*BinTree: {
-        type: t.BinaryTree,
-        require : false
-    }, */
+    matchs: {
+        type: mongoose.Schema.Types.ObjectId,
+        require : "TournamentTree"
+    },
     nbTeamLimit: {
         type: Number,
         require: false

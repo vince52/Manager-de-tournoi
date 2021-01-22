@@ -1,13 +1,16 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     Container,
     Grid,
-    makeStyles
+    makeStyles,
+    Card,
+    CardContent,
+    Typography
 } from '@material-ui/core';
-
+import {Link as RouterLink} from 'react-router-dom';
 import Page from 'src/components/Page';
 import TournamentWidget from './DashboardView/TournamentWidget';
-
+import AddIcon from '@material-ui/icons/Add';
 import API from '../../utils/API';
 
 const useStyles = makeStyles((theme) => ({
@@ -27,14 +30,14 @@ const useStyles = makeStyles((theme) => ({
 const Dashboard = () => {
     const classes = useStyles();
 
-    const [tournaments, setTournaments] = useState([]);
+    const [teams, setTeams] = useState([]);
     useEffect(()=> {
         async function fetchAPI() {
-            console.log("Fetching tournaments...")
-            API.getTournaments().then(res=>{
+            console.log("Fetching teams...")
+            API.getTeams().then(res=>{
                 console.log(res)
-                if (res.tournaments !== undefined) {
-                    setTournaments(res.tournaments)
+                if (res.team !== undefined) {
+                    setTeams(res.team)
                 }
             }).catch(e=>{
                 console.log(e)
@@ -51,14 +54,22 @@ const Dashboard = () => {
                     container
                     spacing={1}
                 >
-                {tournaments.map((quest, index) =>
+                {teams.map((quest, index) =>
                 <Grid item lg={3} sm={3} xl={3} xs={3}>
-                    <TournamentWidget
-                        key={index}
-                        name={quest.name}
-                        gametype={quest.gametype}
-                        _id={quest._id}
-                    /></Grid>)}
+                    <h1>{quest.name}</h1></Grid>)}
+                </Grid>
+                <Grid item lg={3} sm={3} xl={3} xs={3} style={{ border: '1px solid #aaa', height: '200px', }}>
+                    <Card
+                        to={"/app/teamcreator/"}
+                        component={RouterLink}
+                    >
+                        <CardContent textAlign="center">
+                            <Typography>
+                                Create Team
+                            </Typography>
+                            <AddIcon/>
+                        </CardContent>
+                    </Card>
                 </Grid>
             </Container>
         </Page>

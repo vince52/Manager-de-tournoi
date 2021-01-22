@@ -9,6 +9,10 @@ const teamSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
     }],
+    password: {
+        type: String,
+        require: false,
+    },
     date: {
         type: Date,
         default: Date.now

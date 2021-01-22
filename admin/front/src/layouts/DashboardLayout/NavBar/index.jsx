@@ -36,6 +36,11 @@ const items = [
     title: 'My Tournaments'
   },
   {
+    href: '/app/teams',
+    icon: BarChartIcon,
+    title: 'Teams'
+  },
+  {
     href: '/app/account',
     icon: UserIcon,
     title: 'Account'

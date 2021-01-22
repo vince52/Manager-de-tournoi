@@ -106,5 +106,34 @@ export default {
             console.log("Error: ", e);
             return false;
         }
+    },
+    createTeam: async function (name, pass) {
+        try {
+            let body = {name: name, password: pass}
+            let res = await axios.post("/team/create", body);
+        } catch (e) {
+            console.log("Error: ", e);
+            return false;
+        }
+    },
+    getTeams: async function() {
+        try {
+            let res = await axios.get("/team/getAll");
+            console.log("GOT TEAMS: ", res);
+            return res.data;
+        } catch (e) {
+            console.log("Error teams: ", e);
+            return [];
+        }
+    },
+    getTournaments: async function() {
+        try {
+            let res = await axios.get("/tournament/getAll");
+            console.log("GOT TOURNAMENTS: ", res);
+            return res.data;
+        } catch (e) {
+            console.log("Error teams: ", e);
+            return [];
+        }
     }
 };

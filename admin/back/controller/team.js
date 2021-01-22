@@ -18,17 +18,18 @@ function auth(req, res, next) {
 module.exports = function(app) {
     app.get('/getAll', auth, (req, res) => {
         Teams.find({}, function(err, teams) {
-            var teamsmap = {}
-            teams.forEach(element => {
-                teamsmap[element._id] = element
-            });
+            if (err)
+                res.status(500).json({error: err})
+            res.status(200).json({team: teams})
         })
     })
 
     app.post('/create', auth, (req, res) => {
-        if (!req.body.name || !req.body.members)
+        if (!req.body.name || !req.body.password)
             return res.status(400).json({ error: 'Check Arguments' })
-        const newTeam = Teams({name: req.body.name, members: req.body.members})
+        
+        const newTeam = Teams({name: req.body.name, password: req.body.password})
+        newTeam.members.push(req.user._id)
         newTeam.save().then(team => {return res.status(200).json({team: team})}).catch(err => {res.status(500).json({error: err}); console.log(err)})
     })
 

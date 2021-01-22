@@ -43,7 +43,7 @@ const TournamentWidget = ({ className, ...rest }) => {
         <Card
             className={clsx(classes.root, className)}
             {...rest}
-            to={"/app/tournament/" + rest._id}
+            to={"/app/tournament/"}
             component={RouterLink}
         >
             <CardMedia
@@ -65,6 +65,7 @@ const TournamentWidget = ({ className, ...rest }) => {
                 variant="h6"
                 >
                 {rest.name}
+                {rest.key}
                 </Typography>
             </Grid>
             </Grid>

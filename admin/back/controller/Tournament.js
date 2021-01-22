@@ -1,8 +1,10 @@
 const express = require('express')
 const passport = require('passport')
-const f = require('../schema/Action')
-const g = require('../schema/Game')
+//const f = require('../schema/Action')
+//const g = require('../schema/Game')
 const t = require('../schema/Tree')
+const Tree = require('../schema/schemaTournamentTree')
+const Match = require('../schema/schemaMatch')
 const User = require('../schema/schemaUser')
 const Tournament = require('../schema/schemaTournament')
 
@@ -22,12 +24,11 @@ module.exports = function(app) {
     // FOR ADMIN:
     // create a tournament
     app.post('/create', auth, async function(req, res) {
-        try {
             let name = req.body.name
 
             let owner = User.findById(req.user._id)
-            let owners = []
-            owners = owner
+            console.log("PRINT USER: ", req.user._id)
+            let owners = req.user._id
 
             let gameType = req.body.gameType
             let gameMode;
@@ -42,7 +43,7 @@ module.exports = function(app) {
             else
                 nbTeamLimit = 16
 
-            const newtournament = Tournament({ name: name, owners: owners, gameType: gameType, gameMode: gameMode, nbTeamLimit: nbTeamLimit})
+            const newtournament = Tournament({ name: name, owners: owners, gameType: gameType, gameMode: gameMode, nbTeamLimit: nbTeamLimit, matchs: null})
             newtournament.save().then( a => {
                 return res.status(400).json({ tournament: a})
             }).catch(e => {
@@ -50,10 +51,6 @@ module.exports = function(app) {
                 return res.status(400).json({ error: e})
             })
             return res.status(200)
-        } catch (e) {
-            console.log(e)
-            return res.status(400).json({ error: e})
-        }
     })
 
     app.post('/update', auth, (req, res) => {
@@ -86,11 +83,12 @@ module.exports = function(app) {
         
     })
 
-    // need tourmanemntid
+    // need tournamentid tourmanementid
     app.post('/delete', auth, (req, res) => {
         try {
             let owner = User.findById(req.user.id);
-            Tournament.findOneAndDelete({_id : req.body.tourmanemntid})
+            Tournament.findOneAndDelete( {_id : req.body.tourmanementid}, err => {if (err) return res.status(500).json({ ok: err });})
+            return res.status(200).json({ ok: "ok" });
         } catch(e) {
             console.log(e);
             return res.status(400).json({ error: e });
@@ -106,9 +104,9 @@ module.exports = function(app) {
                 return res.status(400).json({error: "Bad request"})
             if (!req.body.teamid)
                 return res.status(400).json({error: "Bad request"})
-            Tournament.findOne({_id: tourmanemntid}).then(tournament => {
+            Tournament.findOne({_id: req.body.tournamentid}).then(tournament => {
                 tournament.registeredTeams.push(req.body.teamid)
-                tournament.save(tourn => {return res.status(200).json({tournament: tourn})})
+                tournament.save().then(tourn => {return res.status(200).json({tournament: tourn})})
             })
         } catch(e) {
             console.log(e);
@@ -123,39 +121,41 @@ module.exports = function(app) {
             if (!req.body.teamid)
                 return res.status(400).json({error: "Bad request"})
 
-            return res.status(200).json({tournament: tourn})
-
             // TO DO
-
-            // Tournament.findOne({_id: tourmanemntid}).then(tournament => {
-            //     tournament.registeredTeams.push(req.body.teamid)
-            //     tournament.save(tourn => {return res.status(200).json({tournament: tourn})})
-            // })
+            
+            Tournament.findOne({_id: req.body.tournamentid}).then(tourn => {
+                const ind = tourn.registeredTeams.indexOf(req.body.teamid)
+                tourn.registeredTeams.splice(ind, 1)
+                tourn.save().then(tourn => {return res.status(200).json({tournament: tourn})})
+            })
         } catch(e) {
             console.log(e);
             return res.status(400).json({ error: e });
         }
     })
 
-    app.get('/start', auth, (req, res) => {
-        Tournament.findOne({_id : tourmanemntid}).then(tourn => {
-            if (tourn.nbTeamLimit == tourn.nbTeamRegistered)
-                tourn.BinTree = new t.BinaryTree(tourn.registeredTeams)
+    app.post('/start', auth, (req, res) => {
+        Tournament.findOne({_id : req.body.tournamentid}).then(tourn => {
+            if (tourn.nbTeamLimit == tourn.nbTeamRegistered) {
+                tmp = t.resorting(tourn.registeredTeams)
+                tourn.matchs = TournamentTree({list: tmp, root: t.CreateTournament(tmp)})
+            }
+            tourn.save().then(tourn => {return res.status(200).json({tournament: tourn})})
         })
     })
 
-    app.post('/declareWinner', auth, (req, res) => {
-        Tournament.findOne({_id : tourmanemntid}).then(tourn => {
+    app.post('/winner', auth, (req, res) => {
+        Tournament.findOne({_id : req.body.tournamentid}).then(tourn => {
             if(req.body.TeamName)
-                tourn.BinTree.root = t.TeamWon(tourn.BinTree.root, req.body.TeamName)
+                tourn.BinTree.root = Tree.TeamWon(tourn.BinTree.root, req.body.TeamName)
         })
     })
 
     app.get('/getAll', auth, (req, res) => {
         Tournament.find({}, function(err, tournaments) {
-            var tournamentmap = {}
+            var tournamentmap = []
             tournaments.forEach(function(tournament) {
-                tournamentmap[tournament._id] = tournament;
+                tournamentmap.push(tournament);
             })
             return res.status(200).json({tournaments: tournamentmap})
         })

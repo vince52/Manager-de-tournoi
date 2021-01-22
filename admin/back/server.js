@@ -85,9 +85,7 @@ app.all('/*', function(req, res, next) {
 
 const routerUser = express.Router();
 const routerTeams = express.Router();
-const routerAssignement = express.Router();
-const routerAnswerSheet = express.Router();
-const routerCourse = express.Router();
+const routerTournament = express.Router();
 
 app.use("/user", routerUser);
 routerUser.all('/*', function(req, res, next) {
@@ -102,6 +100,13 @@ routerTeams.all('/*', function(req, res, next) {
     next();
 });
 require(__dirname + "/controller/team")(routerTeams);
+
+app.use("/tournament", routerTournament);
+routerTeams.all('/*', function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    next();
+});
+require(__dirname + "/controller/Tournament")(routerTournament);
 
 app.set("view engine", "ejs");
 
