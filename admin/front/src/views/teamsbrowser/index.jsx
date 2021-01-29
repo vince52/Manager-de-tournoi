@@ -60,8 +60,8 @@ const Dashboard = () => {
                     <TournamentWidget
                         key={index}
                         name={quest.name}
-                        nbMembers="3"
-                        maxMembers="5"
+                        nbMembers={quest.members.length}
+                        maxMembers="5"//{quest.maxmembers}
                         _id={quest._id}
                      />
                 </Grid>)}

@@ -19,8 +19,19 @@ module.exports = function(app) {
     app.get('/getAll', auth, (req, res) => {
         Teams.find().populate('members').exec(function(err, teams) {
             if (err)
-                res.status(500).json({error: err})
-            res.status(200).json({team: teams})
+                return res.status(500).json({error: err})
+            return res.status(200).json({team: teams})
+        })
+    })
+
+    app.get('/getTeam/:id', auth, (req, res) => {
+        if (!req.params.id)
+            return res.status(400).json({ error: 'Check Arguments' })
+        Teams.find({_id: req.params.id} ).populate('members').exec(function(err, team) {
+            if (err)
+                return res.status(500).json({error: err})
+            else
+                return res.status(200).json({team: team})
         })
     })
 

@@ -1,5 +1,4 @@
-const g = require('./Game')
-const Match = require('../schema/schemaMatch')
+const Match = require('./schemaMatch')
 
 function isPowOfTwo(size) {
     if (size <= 0)
@@ -18,7 +17,7 @@ module.exports = {
           ret.push(list[size - i - 1]);
         }
         return ret;
-    },  
+    },
     CreateTournament : function CreateTournament(list) {
         if (list.length == 1)
           return Match({ data: list[0], left: null, right: null });
@@ -54,32 +53,4 @@ module.exports = {
         }
         return node
     },
-    /*
-    getGameOfTeam : function getGameOfTeam(node, name)
-    {
-        if (node.left != null && node.right != null && 
-            node.left.data != null && node.right.data != null &&
-            (node.left.data.Name === name || node.right.data.Name === name)) {
-                return new g.Game(node.left.data, node.right.data)
-        }
-        if (node.left != null && getGameOfTeam(node.left, name) != null)
-            return getGameOfTeam(node.left, name)
-        if (node.right != null && getGameOfTeam(node.left, name) != null)
-            return getGameOfTeam(node.right, name)
-        return null
-    }
-    BinaryTree : class BinaryTree { 
-        constructor(li) {
-        this.list = module.exports.resorting(li);
-        this.root = module.exports.CreateTournament(this.list); 
-        }
-    },
-    Node : class Node { 
-        constructor(data, left, right) {
-            this.data = data; 
-            this.left = left; 
-            this.right = right; 
-        } 
-    }
-    */
 }

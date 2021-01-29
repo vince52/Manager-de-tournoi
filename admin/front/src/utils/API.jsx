@@ -135,5 +135,13 @@ export default {
             console.log("Error teams: ", e);
             return [];
         }
+    },
+    joinTeam: async function(id) {
+        try {
+            let body = {teamid: id}
+            await axios.post("/team/join", body);
+        } catch (e) {
+            console.log("Error join teams: ", e);
+        }
     }
 };

@@ -136,9 +136,8 @@ module.exports = function(app) {
 
     app.post('/start', auth, (req, res) => {
         Tournament.findOne({_id : req.body.tournamentid}).then(tourn => {
-            if (tourn.nbTeamLimit == tourn.nbTeamRegistered) {
+            if (tourn.nbTeamLimit == tourn.registeredTeams.length) {
                 tmp = t.resorting(tourn.registeredTeams)
-                console.log(tmp)
                 tourn.matchs = TournamentTree({list: tmp, root: t.CreateTournament(tmp)})
             }
             tourn.save().then(tourn => {return res.status(200).json({tournament: tourn})})

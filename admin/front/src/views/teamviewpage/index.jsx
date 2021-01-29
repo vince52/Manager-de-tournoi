@@ -17,6 +17,7 @@ import DEMO_DATA from './data';
 import ReactDOM from 'react-dom';
 import { useEffect } from 'react';
 import Page from 'src/components/Page';
+import API from '../../utils/API';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -56,8 +57,11 @@ const Dashboard = () => {
     const {id} = useParams();
     const thisTeam = getByID(id);  
     console.log(thisTeam)
-    const joinTeam = () => {
-        console.log("Join team")
+    function joinTeam() {
+        if (thisTeam.members.length >= 5 ) //parseInt({thisTeam.maxmembers}
+            return;
+        
+        API.joinTeam(id)
     }
     return (
         <Page className = { thisTeam.name } title = "Tournament" >
