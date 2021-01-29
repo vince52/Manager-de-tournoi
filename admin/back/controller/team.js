@@ -48,11 +48,15 @@ module.exports = function(app) {
         if (!req.body.teamid)
             return res.status(400).json({ error: 'Check Arguments' })
         Teams.findOne({_id: req.body.teamid}).then(team => {
-            team.members.push(req.user._id) 
+            var test = team.members.find(elem => elem.toString() == req.user._id)
+            if (test)
+                return res.status(401).json({err: "Already Inside"})
+
+            team.members.push(req.user._id)
             team.save().then(tm => {
-                res.status(200).json({team: tm})
-            }).catch(err => {res.status(500).json({error: err})})
-        }).catch(err => {res.status(500).json({error: err})})
+                return res.status(200).json({team: tm})
+            }).catch(err => {return res.status(500).json({error: err})})
+        }).catch(err => {return res.status(500).json({error: err})})
     })
 
     app.post('/leave', auth, (req, res) => {
@@ -61,16 +65,16 @@ module.exports = function(app) {
         Teams.findOne({_id: req.body.teamid}).then(team => {
             team.members.remove({_id: req.user._id})
             team.save().then(tm => {
-                res.status(200).json({team: tm})
-            }).catch(err => {res.status(500).json({error: err})})
-        }).catch(err => {res.status(500).json({error: err})})
+                return res.status(200).json({team: tm})
+            }).catch(err => {return res.status(500).json({error: err})})
+        }).catch(err => {return res.status(500).json({error: err})})
     })
 
     app.post('/delete', auth, (req, res) => {
         if (!req.body.teamid)
             return res.status(400).json({ error: 'Check Arguments' })
         Teams.findOneAndDelete({_id: req.body.teamid}).then(team => {
-            res.status(200).json({team: {}})
-        }).catch(err => {res.status(500).json({error: err})})
+            return res.status(200).json({team: {}})
+        }).catch(err => {return res.status(500).json({error: err})})
     })
 }

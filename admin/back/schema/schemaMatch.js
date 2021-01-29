@@ -2,9 +2,9 @@ const mongoose = require("mongoose");
 
 
 const matchSchema = mongoose.Schema({
-    data: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "TournamentTree",
+    Score: {
+        type: Number,
+        require: false
     },
     left: {
         type: mongoose.Schema.Types.ObjectId,
