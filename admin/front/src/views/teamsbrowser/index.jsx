@@ -38,6 +38,7 @@ const Dashboard = () => {
                 console.log(res)
                 if (res.team !== undefined) {
                     setTeams(res.team)
+                    localStorage.setItem('allTeams', JSON.stringify(res.team))
                 }
             }).catch(e=>{
                 console.log(e)
@@ -56,7 +57,13 @@ const Dashboard = () => {
                 >
                 {teams.map((quest, index) =>
                 <Grid item lg={3} sm={3} xl={3} xs={3}>
-                    <TournamentWidget name={quest.name}/>
+                    <TournamentWidget
+                        key={index}
+                        name={quest.name}
+                        nbMembers="3"
+                        maxMembers="5"
+                        _id={quest._id}
+                     />
                 </Grid>)}
                 </Grid>
                 <Grid item lg={3} sm={3} xl={3} xs={3} style={{ border: '1px solid #aaa', height: '200px', }}>

@@ -32,14 +32,28 @@ const useStyles = makeStyles((theme) => ({
 
 const TournamentWidget = ({ className, ...rest }) => {
     const classes = useStyles();
+    let banner_path = "";
+    if (rest.gametype === "valorant")
+        banner_path = "/static/images/valorant_banner.jpg";
+    else if (rest.gametype === "r6")
+        banner_path = "/static/images/r6_banner.jpg";
+    else
+        banner_path = "/static/images/csgo_banner.png";
     return (
         <Card
             className={clsx(classes.root, className)}
             {...rest}
-            to={"/app/teams/" + rest._id}
+            to={"/app/tournament/" + rest.id_tournament}
             component={RouterLink}
         >
-            <CardContent style={{backgroundColor: "#23272A"}}>
+            <CardMedia
+                height="160"
+                component="img"
+                className={classes.media}
+                image={banner_path}
+                title="CS:GO BANNER"
+            />
+            <CardContent>
             <Grid
                 container
                 justify="space-between"
@@ -52,15 +66,6 @@ const TournamentWidget = ({ className, ...rest }) => {
                 variant="h6"
                 >
                 {rest.name}
-                </Typography>
-            </Grid>
-            <Grid item>
-                <Typography
-                color="textSecondary"
-                gutterBottom
-                variant="h6"
-                >
-                {rest.nbMembers}/{rest.maxMembers}
                 </Typography>
             </Grid>
             </Grid>

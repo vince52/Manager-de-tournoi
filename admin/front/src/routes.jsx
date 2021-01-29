@@ -6,6 +6,7 @@ import AccountView from 'src/views/account/AccountView';
 import BrowserView from 'src/views/tournamentbrowser';
 import MyTournamentsView from 'src/views/mytournamentspage';
 import TournamentEditorView from 'src/views/tournamenteditorpage';
+import TeamView from 'src/views/teamviewpage';
 import TeamsView from 'src/views/teamsbrowser';
 import TeamCreatorView from 'src/views/teamcreatorpage';
 import TournamentView from 'src/views/tournamentpage';
@@ -28,6 +29,7 @@ export const routes = [{
             { path: 'teams', element: < TeamsView /> },
             { path: 'teamcreator', element: < TeamCreatorView /> },
             { path: 'tournament/:id', element: < TournamentView /> },
+            { path: 'teams/:id', element: < TeamView /> },
             { path: 'account', element: < AccountView /> },
             { path: 'settings', element: < SettingsView /> },
             { path: 'steam/return/', element: < SteamcallbackView /> },

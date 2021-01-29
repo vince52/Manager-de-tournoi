@@ -17,7 +17,7 @@ function auth(req, res, next) {
 
 module.exports = function(app) {
     app.get('/getAll', auth, (req, res) => {
-        Teams.find({}, function(err, teams) {
+        Teams.find().populate('members').exec(function(err, teams) {
             if (err)
                 res.status(500).json({error: err})
             res.status(200).json({team: teams})
@@ -28,7 +28,7 @@ module.exports = function(app) {
         if (!req.body.name || !req.body.password)
             return res.status(400).json({ error: 'Check Arguments' })
         
-        const newTeam = Teams({name: req.body.name, password: req.body.password})
+        const newTeam = Teams({name: req.body.name, password: req.body.password, maxmember: 5})
         newTeam.members.push(req.user._id)
         newTeam.save().then(team => {return res.status(200).json({team: team})}).catch(err => {res.status(500).json({error: err}); console.log(err)})
     })

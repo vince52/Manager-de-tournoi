@@ -13,6 +13,10 @@ const teamSchema = mongoose.Schema({
         type: String,
         require: false,
     },
+    maxmember: {
+        type: Number,
+        require: true,
+    },
     date: {
         type: Date,
         default: Date.now
