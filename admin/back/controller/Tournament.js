@@ -19,6 +19,25 @@ function auth(req, res, next) {
     }
 }
 
+async function populateAll(match) {
+    var obj = {}
+    if (match) {
+        if (match.right)
+            obj.right = await match.populate('right').execPopulate()
+        if (match.left) {
+            obj.left = await match.populate('left').execPopulate()
+            console.log("object left", obj.left)
+        }
+        obj.id = match._id
+        obj.score = match.Score
+        obj.team_left = match.left_team
+        obj.team_right = match.right_team
+        obj.left = await populateAll(match.left)
+        obj.right = await populateAll(match.right)
+    }
+    return obj
+}
+
 module.exports = function(app) {
     
     // FOR ADMIN:
@@ -134,13 +153,18 @@ module.exports = function(app) {
         }
     })
 
-    app.post('/start', auth, (req, res) => {
-        Tournament.findOne({_id : req.body.tournamentid}).then(tourn => {
+    app.post('/start', auth, async (req, res) => {
+        var obj = {}
+        Tournament.findOne({_id : req.body.tournamentid}).then(async function (tourn) {
             if (tourn.nbTeamLimit == tourn.registeredTeams.length) {
                 tmp = t.resorting(tourn.registeredTeams)
-                tourn.matchs = TournamentTree({list: tmp, root: t.CreateTournament(tmp)})
+                tourn.matchs = await t.CreateTournament(tmp)
+                tourn.populate('matchs').execPopulate();
+                tourn.save()
+                obj = await populateAll(tourn.matchs)
+                console.log(obj)  
             }
-            tourn.save().then(tourn => {return res.status(200).json({tournament: tourn})})
+            return res.status(200).json({tournament: obj})
         })
     })
 

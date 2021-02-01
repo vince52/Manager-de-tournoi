@@ -57,6 +57,7 @@ const Dashboard = () => {
                 >
                 {teams.map((quest, index) =>
                 <Grid item lg={3} sm={3} xl={3} xs={3}>
+                    <Card>
                     <TournamentWidget
                         key={index}
                         name={quest.name}
@@ -64,6 +65,7 @@ const Dashboard = () => {
                         maxMembers="5"//{quest.maxmembers}
                         _id={quest._id}
                      />
+                     </Card>
                 </Grid>)}
                 </Grid>
                 <Grid item lg={3} sm={3} xl={3} xs={3} style={{ border: '1px solid #aaa', height: '200px', }}>

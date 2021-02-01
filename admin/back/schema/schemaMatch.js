@@ -6,6 +6,14 @@ const matchSchema = mongoose.Schema({
         type: Number,
         require: false
     },
+    left_team : {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Teams",
+    },
+    right_team : {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Teams",
+    },
     left: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Match",

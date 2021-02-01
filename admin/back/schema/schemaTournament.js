@@ -30,7 +30,7 @@ const tournamentSchema = mongoose.Schema({
     }],
     matchs: {
         type: mongoose.Schema.Types.ObjectId,
-        require : "TournamentTree"
+        ref : "Match"
     },
     nbTeamLimit: {
         type: Number,

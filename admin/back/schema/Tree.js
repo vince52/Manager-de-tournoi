@@ -18,19 +18,30 @@ module.exports = {
         }
         return ret;
     },
-    CreateTournament : function CreateTournament(list) {
-        if (list.length == 1)
-          return Match({ data: list[0], left: null, right: null });
+    CreateTournament : async function CreateTournament(list) {
+        var obj = {}
+        if (list.length == 2)
+            return Match({ left_team: list[0], right_team: list[1], left: null, right: null}).save()
         else
         {
-          var fst = [];
-          var snd = [];
-          var size = list.length;
-          for (let i = 0; i < size / 2; i++)
-            fst.push(list[i]);
-          for (let i = size / 2; i < size; i++)
-            snd.push(list[i]);
-          return Match({ data: null, left: CreateTournament(fst), right: CreateTournament(snd) });
+            var fst = [];
+            var snd = [];
+            var size = list.length;
+            for (let i = 0; i < size / 2; i++)
+                fst.push(list[i]);
+            for (let i = size / 2; i < size; i++)
+                snd.push(list[i]);
+            var l = await CreateTournament(fst)
+            var r = await CreateTournament(snd)
+            var right = null
+            var left = null
+            if (l) {
+                left = l._id
+            }
+            if (r) {
+                right = r._id
+            }    
+            return Match({ left: l, right: r }).save()
         }
     },
     TeamWon : function TeamWon(node, name)

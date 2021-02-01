@@ -37,6 +37,7 @@ const Notifications = ({ className, ...rest }) => {
           title="Notifications"
         />
         <Divider />
+        <iframe src="https://www.example.com/" frameborder="0" width="100%" height="400"></iframe>
         <CardContent>
           <Grid
             container
