@@ -44,24 +44,30 @@ module.exports = {
             return Match({ left: l, right: r }).save()
         }
     },
-    TeamWon : function TeamWon(node, name)
+    TeamWon : function TeamWon(match, id)
     {
-        if (node === null)
+        if (match === null)
             return null
-        if (node.left != null && node.left.data != null && node.left.data.Name === name) {
-            node.data = node.left.data
-            node.left = null
-            node.right = null
+        if (match.left != null &&
+            match.left.left_team != null && match.left.right_team != null &&
+            (match.left.right_team.id === id || match.left.left_team.id === id )) {
+            if (match.left.right_team.id === id)
+                match.left_team = match.left.right_team
+            else
+                match.left_team = match.left.left_team
         }
-        else if (node.right != null && node.right.data != null && node.right.data.Name === name) {
-            node.data = node.right.data
-            node.left = null
-            node.right = null
+        else if (match.right != null &&
+            match.right.left_team != null && match.right.right_team != null &&
+            (match.right.right_team.id === id || match.right.left_team.id === id )) {
+            if (match.right.right_team.id === id)
+                match.right_team = match.right.right_team
+            else
+                match.right_team = match.right.left_team
         }
         else {
-            node.left = TeamWon(node.left, name)
-            node.right = TeamWon(node.right, name)
+            match.left = TeamWon(match.left, id)
+            match.right = TeamWon(match.right, id)
         }
-        return node
+        return match
     },
 }

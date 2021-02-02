@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {
     Card,
     Container,
@@ -15,8 +15,8 @@ import jQuery from 'jquery'
 import * as JSOG from 'jsog';
 import DEMO_DATA from './data';
 import ReactDOM from 'react-dom';
-import { useEffect } from 'react';
 import Page from 'src/components/Page';
+import API from '../../utils/API';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -32,19 +32,6 @@ const useStyles = makeStyles((theme) => ({
       },
 }));
 
-const getByID = (id) => {
-    //let list = []
-    const list = JSON.parse(localStorage.getItem('allTournaments'));
-    console.log("list:", localStorage.getItem('allTournaments'))
-    console.log("id", id)
-    for (let tourn = 0; tourn < list.length; tourn++) {
-        const element = list[tourn];
-        if (element._id == id)
-            return list[tourn]
-        
-    }
-}
-
 const WhiteTextTypography = withStyles({
     root: {
       color: "#FFFFFF"
@@ -54,10 +41,33 @@ const WhiteTextTypography = withStyles({
 const Dashboard = () => {
     const classes = useStyles();
     const {id} = useParams();
-    const thisTournament = getByID(id);  
-    console.log(thisTournament)  
+    const thisTournament = {}  
+    //console.log(thisTournament) 
+    const [tournament, setTournament] = useState({});
+    const [matchs, setMatchs] = useState({});
+    useEffect(()=> {
+        async function fetchAPI() {
+            console.log("Fetching solo tournaments...")
+            API.getTournament(id).then(res=>{
+                console.log(res)
+                if (res.tournament) {
+                    setTournament(res.tournament)
+                    console.log(res.tournament.matchs._id)
+                    API.getMatchs(res.tournament.matchs).then(res=>{
+                        console.log("res", res.matchs)
+                        setMatchs(res.matchs)
+                    })
+                }
+            }).catch(e=>{
+                console.log(e)
+            })
+        };
+        console.log("print 2")
+        fetchAPI()
+        {console.log(tournament)}
+    }, []);
     return (
-        <Page className = { thisTournament.name } title = "Tournament" >
+        <Page className = { tournament.name } title = { tournament.name } >
             <Card style={{ border: '1px solid #aaa' }}>
                 <Container maxWidth={false}>
                         <Grid
@@ -65,10 +75,17 @@ const Dashboard = () => {
                             direction="column"
                             spacing={1}
                         >
-                        {thisTournament.registeredTeams.map((quest, index) =>
-                            <Grid item lg={3} sm={3} xl={3} xs={3}>
-                                <WhiteTextTypography>{quest.name}</WhiteTextTypography>
-                            </Grid>)}
+                            {tournament.registeredTeams ? tournament.registeredTeams.map((value) => {
+
+                                return <Grid item lg={3} sm={3} xl={3} xs={3}> <WhiteTextTypography> {value.name} </WhiteTextTypography></Grid>
+                            }) : ""}                            
+                        </Grid>
+                        <Grid
+                            container
+                            direction="column"
+                            spacing={1}
+                        >
+                            {JSON.stringify(matchs)}
                         </Grid>
                 </Container>
             </Card>

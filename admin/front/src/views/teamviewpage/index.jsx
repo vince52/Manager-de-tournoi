@@ -65,6 +65,9 @@ const Dashboard = () => {
     }
     return (
         <Page className = { thisTeam.name } title = "Tournament" >
+            <Card onClick={joinTeam}>
+                Join Team
+            </Card>
             <Card style={{ border: '1px solid #aaa' }}>
                 <Container maxWidth={false}>
                         <Grid
@@ -77,9 +80,6 @@ const Dashboard = () => {
                                 <WhiteTextTypography>{quest.firstname + " " + quest.lastname}</WhiteTextTypography>
                             </Grid>)}
                         </Grid>
-                        <button onClick={joinTeam}>
-                            Join Team
-                        </button>
                 </Container>
             </Card>
         </Page>

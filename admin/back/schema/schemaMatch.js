@@ -2,7 +2,11 @@ const mongoose = require("mongoose");
 
 
 const matchSchema = mongoose.Schema({
-    Score: {
+    left_score: {
+        type: Number,
+        require: false
+    },
+    right_score: {
         type: Number,
         require: false
     },

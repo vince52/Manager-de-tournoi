@@ -24,16 +24,16 @@ async function populateAll(match) {
     if (match) {
         if (match.right)
             obj.right = await match.populate('right').execPopulate()
-        if (match.left) {
+        if (match.left)
             obj.left = await match.populate('left').execPopulate()
-            console.log("object left", obj.left)
-        }
         obj.id = match._id
         obj.score = match.Score
         obj.team_left = match.left_team
         obj.team_right = match.right_team
-        obj.left = await populateAll(match.left)
-        obj.right = await populateAll(match.right)
+        if (match.left)
+            obj.left = await populateAll(match.left)
+        if (match.right)
+            obj.right = await populateAll(match.right)
     }
     return obj
 }
@@ -75,10 +75,9 @@ module.exports = function(app) {
     app.post('/update', auth, (req, res) => {
         try {
             if (!req.body.tournamentid)
-                return req.status(400).json( {error: "bad request"})
+                return res.status(400).json({err: "error"})
             Tournament.findOne({_id : req.body.tournamentid}).then(tourn => {
                 if (tourn.owners[0]._id === req.user._id) {
-                    
                     if (req.body.name)
                         tourn.name = req.body.name
                     if (req.user._id)
@@ -105,8 +104,10 @@ module.exports = function(app) {
     // need tournamentid tourmanementid
     app.post('/delete', auth, (req, res) => {
         try {
+            if (!req.body.tournamentid)
+                return res.status(400).json({err: "error"})
             let owner = User.findById(req.user.id);
-            Tournament.findOneAndDelete( {_id : req.body.tourmanementid}, err => {if (err) return res.status(500).json({ ok: err });})
+            Tournament.findOneAndDelete( {_id : req.body.tournamentid}, err => {if (err) return res.status(500).json({ ok: err });})
             return res.status(200).json({ ok: "ok" });
         } catch(e) {
             console.log(e);
@@ -120,7 +121,7 @@ module.exports = function(app) {
     app.post('/join', auth, (req, res) => {
         try {
             if (!req.body.tournamentid)
-                return res.status(400).json({error: "Bad request"})
+                return res.status(400).json({err: "error"})
             if (!req.body.teamid)
                 return res.status(400).json({error: "Bad request"})
             Tournament.findOne({_id: req.body.tournamentid}).then(tournament => {
@@ -155,6 +156,8 @@ module.exports = function(app) {
 
     app.post('/start', auth, async (req, res) => {
         var obj = {}
+        if (!req.body.tournamentid)
+            return res.status(400).json({err: "error"})
         Tournament.findOne({_id : req.body.tournamentid}).then(async function (tourn) {
             if (tourn.nbTeamLimit == tourn.registeredTeams.length) {
                 tmp = t.resorting(tourn.registeredTeams)
@@ -168,10 +171,25 @@ module.exports = function(app) {
         })
     })
 
+    app.post('/getTournament', auth, async (req, res) => {
+        if (!req.body.tournamentid)
+            return res.status(400).json({err: "error"})
+        await Tournament.findOne({_id: req.body.tournamentid}).populate('registeredTeams').populate('matchs').exec(async function(err, tourn) {
+            console.log(tourn)
+            obj = {}
+            if (err)
+                return res.status(500).json({error: "Internal Server Error"})
+            obj = tourn
+            console.log(obj)
+            return res.status(200).json({tournament: obj})
+        }
+        )
+    })
+
     app.post('/winner', auth, (req, res) => {
         Tournament.findOne({_id : req.body.tournamentid}).then(tourn => {
-            if(req.body.TeamName)
-                tourn.BinTree.root = Tree.TeamWon(tourn.BinTree.root, req.body.TeamName)
+            if(req.body.teamid)
+                tourn.BinTree.root = t.TeamWon(tourn.matchs, req.body.teamid)
         })
     })
 

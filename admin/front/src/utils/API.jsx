@@ -143,5 +143,25 @@ export default {
         } catch (e) {
             console.log("Error join teams: ", e);
         }
+    },
+    getTournament: async function(id) {
+        try {
+            let body = {tournamentid: id}
+            let res = await axios.post("/tournament/getTournament", body);
+            console.log("one tournament: ", res);
+            return res.data
+        } catch (e) {
+            console.log("error get Tournament: ", e)
+        }
+    },
+    getMatchs: async function(id) {
+        try {
+            console.log(id._id)
+            let res = await axios.get("/match/getMatch/" + id._id);
+            console.log("one tournament: ", res);
+            return res.data
+        } catch (e) {
+            console.log("error get Tournament: ", e)
+        }
     }
 };
