@@ -31,47 +31,33 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const TournamentWidget = ({ className, ...rest }) => {
-    const classes = useStyles();
-    let banner_path = "";
-    if (rest.gametype === "valorant")
-        banner_path = "/static/images/valorant_banner.jpg";
-    else if (rest.gametype === "r6")
-        banner_path = "/static/images/r6_banner.jpg";
-    else
-        banner_path = "/static/images/csgo_banner.png";
-    return (
-        <Card
-            className={clsx(classes.root, className)}
-            {...rest}
-            to={"/app/tournament/" + rest.id_tournament}
-            component={RouterLink}
-        >
-            <CardMedia
-                height="160"
-                component="img"
-                className={classes.media}
-                image={banner_path}
-                title="CS:GO BANNER"
-            />
-            <CardContent>
-            <Grid
-                container
-                justify="space-between"
-                spacing={3}
-            >
-            <Grid item>
-                <Typography
-                color="textSecondary"
-                gutterBottom
-                variant="h6"
-                >
-                {rest.name}
-                </Typography>
-            </Grid>
-            </Grid>
-        </CardContent>
-        </Card>
-    );
+  const classes = useStyles();
+  return (
+      <Card
+          className={clsx(classes.root, className)}
+          {...rest}
+          to={"/app/teams/" + rest._id}
+          component={RouterLink}
+      >
+          <CardContent style={{backgroundColor: "#23272A"}}>
+          <Grid
+              container
+              justify="space-between"
+              spacing={3}
+          >
+          <Grid item>
+              <Typography
+              color="textSecondary"
+              gutterBottom
+              variant="h6"
+              >
+              {rest.nbMembers + "  " + rest.maxMembers}
+              </Typography>
+          </Grid>
+          </Grid>
+      </CardContent>
+      </Card>
+  );
 };
 
 TournamentWidget.propTypes = {

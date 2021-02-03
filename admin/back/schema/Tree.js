@@ -44,20 +44,21 @@ module.exports = {
             return Match({ left: l, right: r }).save()
         }
     },
-    TeamWon : function TeamWon(match, id)
+    TeamWon : async function TeamWon(match, id)
     {
-        if (match === null)
+        console.log("matchs:", match)
+        if (!match)
             return null
-        if (match.left != null &&
-            match.left.left_team != null && match.left.right_team != null &&
+        if (match.left &&
+            match.left.left_team && match.left.right_team &&
             (match.left.right_team.id === id || match.left.left_team.id === id )) {
             if (match.left.right_team.id === id)
                 match.left_team = match.left.right_team
             else
                 match.left_team = match.left.left_team
         }
-        else if (match.right != null &&
-            match.right.left_team != null && match.right.right_team != null &&
+        else if (match.right &&
+            match.right.left_team && match.right.right_team &&
             (match.right.right_team.id === id || match.right.left_team.id === id )) {
             if (match.right.right_team.id === id)
                 match.right_team = match.right.right_team
@@ -65,9 +66,26 @@ module.exports = {
                 match.right_team = match.right.left_team
         }
         else {
-            match.left = TeamWon(match.left, id)
-            match.right = TeamWon(match.right, id)
+            console.log("else")
+            match.left = await TeamWon(match.left, id)
+            match.right = await TeamWon(match.right, id)
         }
+        console.log("fskl,flkd,fls,kdfk")
+        await Match.findOne({_id : match.id}).then(matc => {
+            console.log("enregistdrfdwx")
+            if (match.right_team)
+                matc.right_team = match.right_team.id
+            if (match.left_team)
+                matc.left_team = match.left_team.id
+            if (match.right)
+                matc.right = match.right.id
+            if (match.left)
+                matc.left = match.left.id
+            console.log(matc)
+            if (matc)
+                matc.save()
+            return match
+        })
         return match
     },
 }

@@ -26,15 +26,20 @@ async function populateAll(match) {
             obj.right = await match.populate('right').execPopulate()
         if (match.left)
             obj.left = await match.populate('left').execPopulate()
+        if (match.left_team)
+            obj.left_team = await match.populate('left_team').execPopulate()
+        if (match.right_team)
+            obj.right_team = await match.populate('right_team').execPopulate()
         obj.id = match._id
         obj.score = match.Score
-        obj.team_left = match.left_team
-        obj.team_right = match.right_team
+        obj.left_team = match.left_team
+        obj.right_team = match.right_team
         if (match.left)
             obj.left = await populateAll(match.left)
         if (match.right)
             obj.right = await populateAll(match.right)
     }
+    console.log("obj func:", obj)
     return obj
 }
 
@@ -186,16 +191,34 @@ module.exports = function(app) {
         )
     })
 
-    app.post('/winner', auth, (req, res) => {
-        Tournament.findOne({_id : req.body.tournamentid}).then(tourn => {
+    app.post('/winner', auth, async (req, res) => {
+        var obj = {}
+        Tournament.findOne({_id : req.body.tournamentid}).then(async function (tourn) {
+            console.log("AVANT", tourn.matchs)
+            await tourn.populate('matchs').execPopulate();
+            obj = await populateAll(tourn.matchs)
+            console.log("OBJ: ", obj)
             if(req.body.teamid)
-                tourn.BinTree.root = t.TeamWon(tourn.matchs, req.body.teamid)
+                tourn.matchs = await t.TeamWon(obj, req.body.teamid)
+            tourn.populate('matchs').execPopulate();
+            console.log("APRES", obj)
+            return res.status(200).json({tournament: tourn})
         })
     })
 
     app.get('/getAll', auth, (req, res) => {
         var tournamentmap = []
         Tournament.find().populate('registeredTeams').exec(function(err, tournaments) {
+            tournaments.forEach(function(tournament) {
+                tournamentmap.push(tournament);
+            })
+            return res.status(200).json({tournaments: tournamentmap})
+        })
+    })
+
+    app.get('/getUserTournaments', auth, (req, res) => {
+        var tournamentmap = []
+        Tournament.find({owners: req.user._id}).populate('registeredTeams').exec(function(err, tournaments) {
             tournaments.forEach(function(tournament) {
                 tournamentmap.push(tournament);
             })

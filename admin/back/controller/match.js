@@ -23,10 +23,14 @@ async function populateAll(match) {
             obj.right = await match.populate('right').execPopulate()
         if (match.left)
             obj.left = await match.populate('left').execPopulate()
+        if (match.left_team)
+            obj.left_team = await match.populate('left_team').execPopulate()
+        if (match.right_team)
+            obj.right_team = await match.populate('right_team').execPopulate()
         obj.id = match._id
         obj.score = match.Score
-        obj.team_left = match.left_team
-        obj.team_right = match.right_team
+        obj.left_team = match.left_team
+        obj.right_team = match.right_team
         if (match.left)
             obj.left = await populateAll(match.left)
         if (match.right)

@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {
+    Button,
     Card,
     Container,
     CardContent,
@@ -17,6 +18,7 @@ import DEMO_DATA from './data';
 import ReactDOM from 'react-dom';
 import Page from 'src/components/Page';
 import API from '../../utils/API';
+import TournamentWidget from './DashboardView/TournamentWidget';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -52,11 +54,12 @@ const Dashboard = () => {
                 console.log(res)
                 if (res.tournament) {
                     setTournament(res.tournament)
-                    console.log(res.tournament.matchs._id)
-                    API.getMatchs(res.tournament.matchs).then(res=>{
-                        console.log("res", res.matchs)
-                        setMatchs(res.matchs)
-                    })
+                    if (res.tournament.matchs) {
+                        API.getMatchs(res.tournament.matchs).then(res=>{
+                            console.log("res matches", res.matchs)
+                            setMatchs(res.matchs)
+                        })
+                    }
                 }
             }).catch(e=>{
                 console.log(e)
@@ -66,7 +69,75 @@ const Dashboard = () => {
         fetchAPI()
         {console.log(tournament)}
     }, []);
+
+    function joinTournament() {
+        if (tournament.registeredTeams.length >= 16 ) //parseInt({thisTeam.maxmembers}
+            return;
+        //API.userTeams(User._id)
+        API.joinTournament(id)//, teamid)
+    }
+
+    function leaveTournament() {
+        API.leaveTournament(id)//, teamid)
+    }
+
+    function deleteTournament() {
+        API.deleteTournament(id)
+    }
+
     return (
+        <Page className = { tournament.name } title = { tournament.name } >
+        <Container>
+            <Grid
+                container
+                margin={10}
+                spacing={1}
+            >
+                    <br />
+                <Grid item xs={6} >
+                <Card variant="outlined">
+                    <Typography
+                        color="textSecondary"
+                        gutterBottom
+                        variant="h2"
+                        style={{"textAlign": 'center'}}
+                    > Teams</Typography>
+                    <br />
+                    {tournament.registeredTeams ? (tournament.registeredTeams.map((quest, index) =>
+                        <Grid item lg={3} sm={3} xl={3} xs={3} >
+                            <Typography
+                                color="textPrimary"
+                                gutterBottom
+                                variant="h6"
+                                style={{"margin": '20px'}}  
+                            >
+                            {quest.name}
+                            </Typography>
+                        </Grid>)) : ""}
+                </Card>
+                </Grid>
+                <Grid xs={4}>
+                    <Card>
+                    <Typography
+                        color="textSecondary"
+                        gutterBottom
+                        variant="h2"
+                        style={{"textAlign": 'center'}}
+                    > Manage</Typography>
+                        <br />
+                        <Button variant="contained" color="primary" style={{ marginLeft: '5px' }}>JOIN</Button>
+                        <Button variant="contained" color="secondary" style={{ marginLeft: '5px' }}>LEAVE</Button>
+                        <Button variant="contained" color="secondary" style={{ marginLeft: '5px' }}>DELETE</Button>
+                    </Card>
+                </Grid>
+            </Grid>
+            <br />
+            <br />
+            <br />
+            {matchs.left ?  <TournamentWidget matchs={JSON.stringify(matchs)}/> : ""}
+        </Container>
+    </Page>
+        /*
         <Page className = { tournament.name } title = { tournament.name } >
             <Card style={{ border: '1px solid #aaa' }}>
                 <Container maxWidth={false}>
@@ -90,7 +161,7 @@ const Dashboard = () => {
                 </Container>
             </Card>
         </Page>
-
+                            */
     )
 };
 

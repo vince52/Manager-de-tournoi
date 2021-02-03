@@ -41,6 +41,7 @@ module.exports = function(app) {
         
         const newTeam = Teams({name: req.body.name, password: req.body.password, maxmember: 5})
         newTeam.members.push(req.user._id)
+        newTeam.owner = req.user._id
         newTeam.save().then(team => {return res.status(200).json({team: team})}).catch(err => {res.status(500).json({error: err}); console.log(err)})
     })
 
@@ -76,5 +77,14 @@ module.exports = function(app) {
         Teams.findOneAndDelete({_id: req.body.teamid}).then(team => {
             return res.status(200).json({team: {}})
         }).catch(err => {return res.status(500).json({error: err})})
+    })
+
+    app.get('myTeams', auth, (req, res) => {
+        Teams.find({_id: req.params.id} ).populate('members').exec(function(err, teams) {
+            if (err)
+                return res.status(500).json({error: err})
+            else
+                return res.status(200).json({team: teams})
+        })
     })
 }

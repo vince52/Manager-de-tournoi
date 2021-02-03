@@ -144,6 +144,46 @@ export default {
             console.log("Error join teams: ", e);
         }
     },
+    leaveTeam: async function(id) {
+        try {
+            let body = {teamid: id}
+            await axios.post("/team/leave", body);
+        } catch (e) {
+            console.log("Error leave teams: ", e);
+        }
+    },
+    deleteTeam: async function(id) {
+        try {
+            let body = {teamid: id}
+            await axios.post("/team/delete", body);
+        } catch (e) {
+            console.log("Error delete teams: ", e);
+        }
+    },
+    joinTournament: async function(tournamentid, teamid) { //TODO Meh
+        try {
+            let body = {tournamentid: tournamentid, teamid: teamid}
+            await axios.post("/tournament/join", body);
+        } catch (e) {
+            console.log("Error join tournament: ", e);
+        }
+    },
+    leaveTournament: async function(tournamentid, teamid) { //TODO Meh
+        try {
+            let body = {tournamentid: tournamentid, teamid: teamid}
+            await axios.post("/tournament/leave", body);
+        } catch (e) {
+            console.log("Error leave tournament: ", e);
+        }
+    },
+    deleteTournament: async function(tournamentid) { //TODO Meh
+        try {
+            let body = {tournamentid: tournamentid}
+            await axios.post("/tournament/delete", body);
+        } catch (e) {
+            console.log("Error delete tournament: ", e);
+        }
+    },
     getTournament: async function(id) {
         try {
             let body = {tournamentid: id}
