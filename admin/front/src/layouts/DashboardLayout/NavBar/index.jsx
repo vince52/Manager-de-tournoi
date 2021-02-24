@@ -1,6 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import API from '../../../utils/API';
+
 import {
   Avatar,
   Box,
@@ -72,10 +74,21 @@ const NavBar = ({ onMobileClose, openMobile }) => {
   const classes = useStyles();
   const location = useLocation();
 
+  const [username, setUsername] = useState([]);
+  const [avatar, setAvatar] = useState([]);
   useEffect(() => {
     if (openMobile && onMobileClose) {
       onMobileClose();
     }
+    const interval = setInterval(async () => {
+      API.getMyUserInformation().then(res=>{
+          setUsername(res.user.name)
+          setAvatar(res.user.avatar)
+      }).catch(e=>{
+          console.log(e)
+      })
+    }, 5000);
+    
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.pathname]);
 
@@ -94,7 +107,7 @@ const NavBar = ({ onMobileClose, openMobile }) => {
         <Avatar
           className={classes.avatar}
           component={RouterLink}
-          src={user.avatar}
+          src={avatar}
           to="/app/account"
         />
         <Typography
@@ -102,7 +115,7 @@ const NavBar = ({ onMobileClose, openMobile }) => {
           color="textPrimary"
           variant="h5"
         >
-          {user.name}
+          {username}
         </Typography>
       </Box>
       <Divider />

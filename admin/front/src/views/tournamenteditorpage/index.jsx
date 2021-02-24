@@ -6,6 +6,7 @@ import {
 } from '@material-ui/core';
 import { withStyles } from "@material-ui/core/styles";
 import Page from 'src/components/Page';
+import API from 'src/utils/API';
 
 const WhiteTextTypography = withStyles({
     root: {
@@ -33,30 +34,31 @@ class UserForm extends Component {
       this.state = {
         Name: '',
         nbPlayers: '',
-        Gamemode: '',
-        Rewards: '',
-        TournamentDate: ''
+        value: '',
+        Gamemode: ''
       };
+      this.handleInputChange = this.handleInputChange.bind(this);
     }
 
-    onChange = (e) => {
-      /*
-        Because we named the inputs to match their
-        corresponding values in state, it's
-        super easy to update the state
-      */
-      this.setState({ [e.target.name]: e.target.value });
+    handleInputChange(event) {
+      const target = event.target;
+      const value = target.type === 'checkbox' ? target.checked : target.value;
+      const name = target.name;
+  
+      this.setState({
+        [name]: value
+      });
     }
 
     onSubmit = (e) => {
         e.preventDefault();
-        // get our form data out of state
-        //const { Name, nbPlayers, Gamemode, Rewards, TournamentDate } = this.state;
-
+        const { Name, nbPlayers, Gametype, Gamemode } = this.state;
+        console.log("Submitting tournament: " + Name + nbPlayers + Gametype + Gamemode);
+        //API.postNewTournament(Name, nbPlayers, Gametype, Gamemode);
       }
 
     render() {
-      const { Name, nbPlayers, Gamemode } = this.state;
+      const { Name, nbPlayers, Gametype, Gamemode } = this.state;
       return (
         <form onSubmit={this.onSubmit}>
         <Grid
@@ -68,27 +70,29 @@ class UserForm extends Component {
             <input
                 type="text"
                 name="Name"
-                value={Name}
                 onChange={this.onChange}
             />
             </Grid>
             <Grid item>
-            <WhiteTextTypography>Game:</WhiteTextTypography>
-            <select>
+            <WhiteTextTypography>Gametype:</WhiteTextTypography>
+            <select value={this.state.value} onChange={this.handleChange}>
             <option selected value="csgo">CS : GO</option>
             <option value="r6">Rainbow 6 : Seige</option>
             <option value="valorant">Valorant</option>
             </select>
             </Grid>
             <Grid item>
+            <WhiteTextTypography>Gametype:</WhiteTextTypography>
             <input
-                type="text"
-                name="nbPlayers"
-                value={nbPlayers}
+                type="number"
+                name="Gametype"
+                value={Gametype}
                 onChange={this.onChange}
             />
+            <button type="submit">Submit</button>
             </Grid>
             <Grid item>
+            <WhiteTextTypography>Gamemode:</WhiteTextTypography>
             <input
                 type="text"
                 name="Gamemode"

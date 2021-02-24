@@ -5,12 +5,10 @@ const Teams = require('../schema/schemaTeam')
 const Tournament = require('./Tournament')
 
 function auth(req, res, next) {
-    console.log("try")
-    console.log(req.user)
-    console.log(req.session)
     if (req.isAuthenticated()) {
         next()
     } else {
+        console.log("User is not authentified")
         return res.status(401).json({ error: 'not connected' })
     }
 }

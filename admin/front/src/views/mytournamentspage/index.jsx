@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
+import API from '../../utils/API';
 import {
     Container,
     Grid,
@@ -29,6 +30,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Dashboard = () => {
     const classes = useStyles();
+    /*
     const mytournaments1 = {
         tournaments: [{
           id_tournament: 1,
@@ -72,7 +74,23 @@ const Dashboard = () => {
             cashprize: 4000,
             Timezone: "Eutope/Paris (UTC+1)"
         }]
-    }
+    } */
+    const [mytournaments1, setTournaments] = useState([]);
+    useEffect(()=> {
+        async function fetchAPI() {
+            console.log("Fetching tournaments...")
+            API.getOwnTournaments().then(res=>{
+                console.log(res)
+                if (res.tournaments !== undefined) {
+                    setTournaments(res.tournaments)
+                }
+            }).catch(e=>{
+                console.log(e)
+            })
+        };
+        console.log("print 2")
+        fetchAPI()
+    }, []);
     return (
         <Page className = { classes.root } title = "Tournaments" >
             <Container maxWidth={false}>
@@ -80,7 +98,8 @@ const Dashboard = () => {
                     container
                     spacing={1}
                 >
-                {mytournaments1.tournaments.map((quest, index) =>
+                
+                {mytournaments1 ? mytournaments1.map((quest, index) =>
                 <Grid item lg={3} sm={3} xl={3} xs={3}>
                     <MyTournamentWidget
                     key={index}
@@ -93,7 +112,7 @@ const Dashboard = () => {
                     endRegistrationDate={quest.endRegistrationDate}
                     cashprize={quest.cashprize}
                     Timezone={quest.Timezone}
-                    /></Grid>)}
+                    /></Grid> ) : ""}
                 <Grid item lg={3} sm={3} xl={3} xs={3} style={{ border: '1px solid #aaa', height: '200px', }}>
                     <Card
                         to={"/app/tournamentcreator/"}

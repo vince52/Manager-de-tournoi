@@ -19,6 +19,7 @@ import ReactDOM from 'react-dom';
 import Page from 'src/components/Page';
 import API from '../../utils/API';
 import TournamentWidget from './DashboardView/TournamentWidget';
+import { ContactsOutlined } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -82,6 +83,7 @@ const Dashboard = () => {
     }
 
     function deleteTournament() {
+        console.log("test")
         API.deleteTournament(id)
     }
 
@@ -127,7 +129,7 @@ const Dashboard = () => {
                         <br />
                         <Button variant="contained" color="primary" style={{ marginLeft: '5px' }}>JOIN</Button>
                         <Button variant="contained" color="secondary" style={{ marginLeft: '5px' }}>LEAVE</Button>
-                        <Button variant="contained" color="secondary" style={{ marginLeft: '5px' }}>DELETE</Button>
+                        <Button variant="contained" color="secondary" style={{ marginLeft: '5px' } } type="submit" onClick={() => { deleteTournament()}} >DELETE</Button>
                     </Card>
                 </Grid>
             </Grid>

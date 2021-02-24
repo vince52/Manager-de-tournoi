@@ -3,13 +3,11 @@ const passport = require('passport')
 const User = require('../schema/schemaUser')
 var variabl = require("./variable");
 
-function auth(req, res, next) {
-    console.log("try")
-    console.log(req.user)
-    console.log(req.session)
+function auth(req, res, next)  {
     if (req.isAuthenticated()) {
         next()
     } else {
+        console.log("User is not authentified")
         return res.status(401).json({ error: 'not connected' })
     }
 }
@@ -97,6 +95,11 @@ module.exports = function(app) {
             .catch(err => {
                 return res.status(500).json({ ok: true })
             })
+    })
+
+    app.get('/getUser', auth, async function(req, res) {
+        let user = await User.findById(req.user.id);
+        return res.status(200).json({ user: user })
     })
 
     // Password update

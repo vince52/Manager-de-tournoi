@@ -48,7 +48,7 @@ const MatchWidget = ({ className, ...rest }) => {
   const score_right = (rest.match.score_right) ? rest.match.score_right : "0"
 
   return(
-    <Card style={cardStyle} {...rest} to={"/app/match/" + rest.match.id} component={RouterLink}>
+    <Card style={cardStyle}>
       <Grid container direction="row">
         <Grid item xs>
           <Typography color="textSecondary" gutterBottom variant="h4" style={{"textAlign": 'left', 'marginLeft': '15px'}}>

@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import moment from 'moment';
+import API from '../../../utils/API';
 import {
   Avatar,
   Box,
@@ -32,6 +33,17 @@ const useStyles = makeStyles(() => ({
 
 const Profile = ({ className, ...rest }) => {
   const classes = useStyles();
+  const [username, setUsername] = useState([]);
+  const [avatar, setAvatar] = useState([]);
+
+  const interval = setInterval(async () => {
+    API.getMyUserInformation().then(res=>{
+        setUsername(res.user.name)
+        setAvatar(res.user.avatar)
+    }).catch(e=>{
+        console.log(e)
+    })
+  }, 1000);
 
   return (
     <Card
@@ -46,21 +58,21 @@ const Profile = ({ className, ...rest }) => {
         >
           <Avatar
             className={classes.avatar}
-            src={user.avatar}
+            src={avatar}
           />
           <Typography
             color="textPrimary"
             gutterBottom
             variant="h3"
           >
-            {user.name}
+            {username}
           </Typography>
           <Typography
             className={classes.dateText}
             color="textSecondary"
             variant="body1"
           >
-            {`${moment().format('hh:mm A')} ${user.userid}`}
+            { user.userid}
           </Typography>
         </Box>
       </CardContent>

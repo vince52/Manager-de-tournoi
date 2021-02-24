@@ -126,6 +126,16 @@ export default {
             return [];
         }
     },
+    getTeam: async function(id) {
+        try {
+            let res = await axios.get("/team/getTeam/" + id);
+            console.log("GOT TEAMS: ", res);
+            return res.data;
+        } catch (e) {
+            console.log("Error teams: ", e);
+            return [];
+        }
+    },
     getTournaments: async function() {
         try {
             let res = await axios.get("/tournament/getAll");
@@ -203,5 +213,43 @@ export default {
         } catch (e) {
             console.log("error get Tournament: ", e)
         }
-    }
+    },
+    getSingleMatch: async function(id) {
+        try {
+            console.log(id)
+            let res = await axios.get("/match/getSingleMatch/" + id);
+            console.log("one tournament: ", res);
+            return res.data
+        } catch (e) {
+            console.log("error get Tournament: ", e)
+        }
+    },
+    getOwnTournaments: async function() {
+        try {
+            let res = await axios.get("/tournament/getUserTournaments/");
+            console.log("own tournaments: ", res.data);
+            return res.data
+        } catch (e) {
+            console.log("error get Tournament: ", e)
+        }
+    },
+    postNewTournament: async function (name, gameType, gameMode, nbTeamLimit) {
+        try {
+            let body = {name: name, gameType: gameType, gameMode: gameMode, nbTeamLimit: nbTeamLimit}
+            let res = await axios.post("/tournament/create", body);
+            console.log("one tournament: ", res);
+            return res.data
+        } catch (e) {
+            console.log("error get Tournament: ", e)
+        }
+    },
+    getMyUserInformation: async function() {
+        try {
+            let res = await axios.get("/user/getUser/");
+            //console.log("own tournaments: ", res.data);
+            return res.data
+        } catch (e) {
+            console.log("error get Tournament: ", e)
+        }
+    },
 };
