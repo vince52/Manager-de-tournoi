@@ -21,7 +21,7 @@ module.exports = {
     CreateTournament : async function CreateTournament(list) {
         var obj = {}
         if (list.length == 2)
-            return Match({ left_team: list[0], right_team: list[1], left: null, right: null}).save()
+            return Match({when: Date.now.toString(), left_team: list[0], right_team: list[1], left: null, right: null}).save()
         else
         {
             var fst = [];

@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 
-
 const matchSchema = mongoose.Schema({
     left_score: {
         type: Number,
@@ -25,7 +24,14 @@ const matchSchema = mongoose.Schema({
     right: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Match",
-    }
+    },
+    when: {
+        type: String
+    },
+    players: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Player"
+    }]
 });
 
 

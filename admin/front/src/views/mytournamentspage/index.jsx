@@ -104,11 +104,11 @@ const Dashboard = () => {
                     <MyTournamentWidget
                     key={index}
                     name={quest.name}
-                    gametype={quest.gametype}
+                    gametype={quest.gameType}
                     id_tournament={quest.id_tournament}
-                    nbTeamRegister={quest.nbTeamRegister}
+                    nbTeamRegistered={quest.nbTeamRegistered}
                     nbTeamLimit={quest.nbTeamLimit}
-                    gamemode={quest.gamemode}
+                    gamemode={quest.gameMode}
                     endRegistrationDate={quest.endRegistrationDate}
                     cashprize={quest.cashprize}
                     Timezone={quest.Timezone}

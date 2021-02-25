@@ -19,6 +19,7 @@ function auth(req, res, next) {
 
 async function populateAll(match) {
     var obj = {}
+    match.when = Date.now
     if (match) {
         if (match.right)
             obj.right = await match.populate('right').execPopulate()
@@ -67,7 +68,7 @@ module.exports = function(app) {
 
             const newtournament = Tournament({ name: name, owners: owners, gameType: gameType, gameMode: gameMode, nbTeamLimit: nbTeamLimit, matchs: null})
             newtournament.save().then( a => {
-                return res.status(400).json({ tournament: a})
+                return res.status(200).json({ tournament: a})
             }).catch(e => {
                 console.log(e)
                 return res.status(400).json({ error: e})

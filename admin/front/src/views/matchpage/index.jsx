@@ -45,6 +45,7 @@ const Dashboard = () => {
     const {id} = useParams();
 
     const [match, setMatch] = useState({});
+    const [players, setPlayer] = useState({});
     const [name1, setName1] = useState({});
     const [name2, setName2] = useState({});
     const [leftteam, setleftteam] = useState({});
@@ -75,6 +76,13 @@ const Dashboard = () => {
         fetchAPI()
     }, []);
 
+    function startMatch() {
+        API.startMatch(id).then(res =>{
+            console.log(res)
+            setPlayer(res.players)
+        })
+
+    }
 
     return (
         //<Page className = { match.name } title = { tournament.name } >
@@ -86,7 +94,14 @@ const Dashboard = () => {
                         variant="h2"
                         style={{"textAlign": 'center'}}
                     > { (leftteam.name ? leftteam.name : "undefined") + " .vs. " + (rightteam.name ? rightteam.name : "undefined")}</Typography>
-                    <br />
+                    <Typography
+                        color="textPrimary"
+                        gutterBottom
+                        variant="h2"
+                        style={{"textAlign": 'center'}}
+                    > {match.when} 
+                        <Button variant="contained" color="secondary" style={{ marginLeft: '5px' } } type="submit" onClick={() => { startMatch()}} >START</Button>
+                    </Typography>
                 </Card>
                 <br/>
                 <br />
@@ -121,7 +136,7 @@ const Dashboard = () => {
                                         {quest.firstname + " \"" + quest.name + "\" " + quest.lastname}
                                     </Typography>
                                 </Grid>
-                                <Grid item xs={2}>{"0"}</Grid>
+                                <Grid item xs={2}>{players[index].Kill.toString()}</Grid>
                                 <Grid item xs={2}>{"0"}</Grid>
                                 <Grid item xs={2}>{"0"}</Grid>
                             </Grid>

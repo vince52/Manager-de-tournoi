@@ -16,6 +16,9 @@ const useStyles = makeStyles((theme) => ({
   root: {
     height: '100%'
   },
+  card: {
+    backgroundColor: '#23272A',
+  },
   avatar: {
     backgroundColor: colors.red[600],
     height: 56,
@@ -41,28 +44,29 @@ const MyTournamentWidget = ({ className, ...rest }) => {
         banner_path = "/static/images/csgo_vbanner.jpg";
     return (
       <Card
-        className={clsx(classes.root, className)}
+        className={clsx(classes.card, className)}
         {...rest}
         to={"/app/mytournaments/" + rest.id_tournament}
         component={RouterLink}
+        variant="outlined"
       >
         <Grid
           container
         >
           <Grid item xs={12} sm={2}>
             <CardMedia
-              height="200"
+              height="257"
               component="img"
               image={banner_path}
             />
           </Grid>
           <Grid item xs={12} sm={10}>
-            <CardContent className={classes.content}>
+            <CardContent className={classes.card}>
               <Typography component="h5" variant="h5">
                 {rest.name}
               </Typography>
               <Typography variant="subtitle1" color="textSecondary">
-                Registered: {rest.nbTeamRegister}/{rest.nbTeamLimit}
+                Registered: {rest.nbTeamRegistered}/{rest.nbTeamLimit}
               </Typography>
               <Typography variant="subtitle1" color="textSecondary">
                 Gamemode: {rest.gamemode}

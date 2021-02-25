@@ -194,6 +194,14 @@ export default {
             console.log("Error delete tournament: ", e);
         }
     },
+    startTournament: async function(tournamentid) {
+        try {
+            let body = {tournamentid: tournamentid}
+            await axios.post("/tournament/start", body);
+        } catch (e) {
+            console.log("Error delete tournament: ", e);
+        }
+    },
     getTournament: async function(id) {
         try {
             let body = {tournamentid: id}
@@ -224,6 +232,15 @@ export default {
             console.log("error get Tournament: ", e)
         }
     },
+    startMatch: async function(matchid) {
+        try {
+            let body = {matchid: matchid}
+            let res = await axios.post("/match/start", body);
+            return res.data
+        } catch (e) {
+            console.log("Error delete tournament: ", e);
+        }
+    },
     getOwnTournaments: async function() {
         try {
             let res = await axios.get("/tournament/getUserTournaments/");
@@ -233,7 +250,7 @@ export default {
             console.log("error get Tournament: ", e)
         }
     },
-    postNewTournament: async function (name, gameType, gameMode, nbTeamLimit) {
+    postNewTournament: async function (name, nbTeamLimit, gameType, gameMode) {
         try {
             let body = {name: name, gameType: gameType, gameMode: gameMode, nbTeamLimit: nbTeamLimit}
             let res = await axios.post("/tournament/create", body);
@@ -250,6 +267,28 @@ export default {
             return res.data
         } catch (e) {
             console.log("error get Tournament: ", e)
+        }
+    },
+    //Update Informations API
+    updateInformations: async function(email, firstname, lastname) {
+        const body = { username: email, firstname: firstname, lastname: lastname};
+        const { status: statusid } = await axios.post('/user/update', body);
+        if (statusid === 200) {
+            localStorage.setItem("firstname", firstname);
+            localStorage.setItem("lastname", lastname);
+            localStorage.setItem("email", email);
+            // localStorage.setItem("token", response.user.token);
+            return true; //
+        }
+        return false;
+    },
+    getOwnTeam: async function() {
+        try {
+            let res = await axios.get('/team/myTeams');
+            return res.data;
+        } catch(e) {
+            console.log("error getOwnTeam: ", e)
+            return e.response.data;
         }
     },
 };

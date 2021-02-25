@@ -77,8 +77,8 @@ module.exports = function(app) {
         }).catch(err => {return res.status(500).json({error: err})})
     })
 
-    app.get('myTeams', auth, (req, res) => {
-        Teams.find({_id: req.params.id} ).populate('members').exec(function(err, teams) {
+    app.get('/myTeams', auth, (req, res) => {
+        Teams.find({members: req.params.id} ).populate('members').exec(function(err, teams) {
             if (err)
                 return res.status(500).json({error: err})
             else

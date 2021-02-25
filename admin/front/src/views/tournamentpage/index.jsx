@@ -1,5 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {
+    Menu,
+    MenuItem,
     Button,
     Card,
     Container,
@@ -48,6 +50,7 @@ const Dashboard = () => {
     //console.log(thisTournament) 
     const [tournament, setTournament] = useState({});
     const [matchs, setMatchs] = useState({});
+    const [myteams, setMyTeams] = useState([]);
     useEffect(()=> {
         async function fetchAPI() {
             console.log("Fetching solo tournaments...")
@@ -65,27 +68,50 @@ const Dashboard = () => {
             }).catch(e=>{
                 console.log(e)
             })
+
+            API.getOwnTeam().then(res=>{
+                console.log(res)
+                if (res.team) {
+                    console.log("res teams", res.team)
+                    setMyTeams(res.team)
+                }
+            }).catch(e=>{
+                console.log(e)
+            })
+
         };
         console.log("print 2")
         fetchAPI()
         {console.log(tournament)}
     }, []);
 
-    function joinTournament() {
-        if (tournament.registeredTeams.length >= 16 ) //parseInt({thisTeam.maxmembers}
+    function startTournament() {
+        if (tournament.registeredTeams.length != 16 ) //parseInt({thisTeam.maxmembers}
             return;
-        //API.userTeams(User._id)
-        API.joinTournament(id)//, teamid)
+        API.startTournament(id)
+    }
+
+    function joinTournament(teamid) {
+        API.joinTournament(id, teamid)
     }
 
     function leaveTournament() {
-        API.leaveTournament(id)//, teamid)
+        API.leaveTournament(id)
     }
 
     function deleteTournament() {
         console.log("test")
         API.deleteTournament(id)
     }
+    const [anchorEl, setAnchorEl] = React.useState(null);
+
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+      };
+
+      const handleClose = () => {
+        setAnchorEl(null);
+      };
 
     return (
         <Page className = { tournament.name } title = { tournament.name } >
@@ -127,9 +153,21 @@ const Dashboard = () => {
                         style={{"textAlign": 'center'}}
                     > Manage</Typography>
                         <br />
-                        <Button variant="contained" color="primary" style={{ marginLeft: '5px' }}>JOIN</Button>
+                        <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick} variant="contained" color="primary" style={{ marginLeft: '5px' }}> JOIN </Button>
+                        <Menu
+                            id="simple-menu"
+                            anchorEl={anchorEl}
+                            keepMounted
+                            open={Boolean(anchorEl)}
+                            onClose={handleClose}
+                            >
+                            {myteams ? (myteams.map((quest, index) =>
+                            <MenuItem onClick={() => {joinTournament(quest._id)}}>{quest.name}</MenuItem>
+                            )): ""}
+                        </Menu>
                         <Button variant="contained" color="secondary" style={{ marginLeft: '5px' }}>LEAVE</Button>
                         <Button variant="contained" color="secondary" style={{ marginLeft: '5px' } } type="submit" onClick={() => { deleteTournament()}} >DELETE</Button>
+                        <Button variant="contained" color="secondary" style={{ marginLeft: '5px' } } type="submit" onClick={() => { startTournament()}} >START</Button>
                     </Card>
                 </Grid>
             </Grid>
@@ -139,47 +177,7 @@ const Dashboard = () => {
             {matchs.left ?  <TournamentWidget matchs={JSON.stringify(matchs)}/> : ""}
         </Container>
     </Page>
-        /*
-        <Page className = { tournament.name } title = { tournament.name } >
-            <Card style={{ border: '1px solid #aaa' }}>
-                <Container maxWidth={false}>
-                        <Grid
-                            container
-                            direction="column"
-                            spacing={1}
-                        >
-                            {tournament.registeredTeams ? tournament.registeredTeams.map((value) => {
-
-                                return <Grid item lg={3} sm={3} xl={3} xs={3}> <WhiteTextTypography> {value.name} </WhiteTextTypography></Grid>
-                            }) : ""}                            
-                        </Grid>
-                        <Grid
-                            container
-                            direction="column"
-                            spacing={1}
-                        >
-                            {JSON.stringify(matchs)}
-                        </Grid>
-                </Container>
-            </Card>
-        </Page>
-                            */
     )
 };
-
-/*
-    <Page className = { classes.root } title = "Tournament Browser" >
-        <Container maxWidth={false}>
-                <Grid
-                    container
-                    spacing={1}
-                >
-                {thisTournament.registeredTeams.map((quest, index) =>
-                    <Grid item lg={3} sm={3} xl={3} xs={3}>
-                        {quest}
-                    </Grid>)}
-                </Grid>
-        </Container>
-    </Page>*/
 
 export default Dashboard;
