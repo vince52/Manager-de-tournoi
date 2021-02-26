@@ -20,8 +20,15 @@ module.exports = {
     },
     CreateTournament : async function CreateTournament(list) {
         var obj = {}
-        if (list.length == 2)
-            return Match({when: Date.now.toString(), left_team: list[0], right_team: list[1], left: null, right: null}).save()
+        if (list.length == 2) {
+            var newDate = new Date()
+            var date = newDate.getDate();
+            var month = newDate.getMonth() + 1;
+            var year = newDate.getFullYear();
+            var hour = newDate.getHours() + 3;
+            var minutes = newDate.getMinutes()
+            return Match({when: date + "/" + month + "/" + year + "   " + hour + ":" + minutes, left_team: list[0], right_team: list[1], left: null, right: null}).save()
+        }
         else
         {
             var fst = [];

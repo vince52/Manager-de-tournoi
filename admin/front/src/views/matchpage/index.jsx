@@ -19,6 +19,7 @@ import ReactDOM from 'react-dom';
 import Page from 'src/components/Page';
 import API from '../../utils/API';
 import TournamentWidget from './DashboardView/TournamentWidget';
+import {Link as RouterLink} from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -57,6 +58,9 @@ const Dashboard = () => {
             API.getSingleMatch(id).then(res=>{
                 console.log(res.matchs)
                 setMatch(res.matchs)
+                console.log("PLAYERS!!!")
+                setPlayer(res.matchs.players)
+                console.log(res.matchs.players)
                 API.getTeam(res.matchs.left_team).then(resl=>{
                     if (resl.team && resl.team[0]) {
                         setleftteam(resl.team[0])
@@ -97,10 +101,17 @@ const Dashboard = () => {
                     <Typography
                         color="textPrimary"
                         gutterBottom
-                        variant="h2"
+                        variant="h4"
                         style={{"textAlign": 'center'}}
-                    > {match.when} 
+                    > {"Schedule start : " + match.when}
+                    </Typography>
+                    <Typography
+                        color="textPrimary"
+                        gutterBottom
+                        variant="h2"
+                        style={{"textAlign": 'center'}}>
                         <Button variant="contained" color="secondary" style={{ marginLeft: '5px' } } type="submit" onClick={() => { startMatch()}} >START</Button>
+                        <Button variant="contained" color="secondary" style={{ marginLeft: '5px' } } to={"./edit"} component={RouterLink}>EDIT</Button>
                     </Typography>
                 </Card>
                 <br/>
@@ -136,9 +147,9 @@ const Dashboard = () => {
                                         {quest.firstname + " \"" + quest.name + "\" " + quest.lastname}
                                     </Typography>
                                 </Grid>
-                                <Grid item xs={2}>{players[index].Kill.toString()}</Grid>
-                                <Grid item xs={2}>{"0"}</Grid>
-                                <Grid item xs={2}>{"0"}</Grid>
+                                <Grid item xs={2}>{players && players[index] && players[index].Kill ? players[index].Kill.toString() : "-"}</Grid>
+                                <Grid item xs={2}>{players && players[index] && players[index].Death ? players[index].Death.toString() : "-"}</Grid>
+                                <Grid item xs={2}>{players && players[index] && players[index].Assist ? players[index].Assist.toString() : "-"}</Grid>
                             </Grid>
                         </Grid>)) : "" }
                     </Card>
@@ -168,9 +179,9 @@ const Dashboard = () => {
                                         {quest.firstname + " \"" + quest.name + "\" " + quest.lastname}
                                     </Typography>
                                 </Grid>
-                                <Grid item xs={2}>{"0"}</Grid>
-                                <Grid item xs={2}>{"0"}</Grid>
-                                <Grid item xs={2}>{"0"}</Grid>
+                                <Grid item xs={2}>{players &&players[index] && players[index].Kill ? quest.Kill.toString() : "-"}</Grid>
+                                <Grid item xs={2}>{players && players[index] && players[index].Death ? players[index].Death.toString() : "-"}</Grid>
+                                <Grid item xs={2}>{players && players[index] && players[index].Assist ? players[index].Assist.toString() : "-"}</Grid>
                             </Grid>
                         </Grid>)) : "" }
                     </Card>

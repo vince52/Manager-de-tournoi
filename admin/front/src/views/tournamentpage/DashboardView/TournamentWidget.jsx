@@ -44,9 +44,9 @@ const MatchWidget = ({ className, ...rest }) => {
   const classes = useStyles();
   const name_left = (rest.match.left_team) ? rest.match.left_team.name : ""
   const name_right = (rest.match.right_team) ? rest.match.right_team.name : ""
-  const score_left = (rest.match.score_left) ? rest.match.score_left : "0"
-  const score_right = (rest.match.score_right) ? rest.match.score_right : "0"
-
+  const score_left = (rest.match.left_score) ? rest.match.left_score : "0"
+  const score_right = (rest.match.right_score) ? rest.match.right_score : "0"
+  
   return(
     <Card style={cardStyle} {...rest} to={"/app/match/" + rest.match.id} component={RouterLink}>
       <Grid container direction="row">

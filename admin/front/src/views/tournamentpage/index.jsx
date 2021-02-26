@@ -11,13 +11,15 @@ import {
     Typography,
     withStyles
 } from '@material-ui/core';
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+
 import * as _ from 'underscore';
 import $ from 'jquery';
 import jQuery from 'jquery'
 import * as JSOG from 'jsog';
 import DEMO_DATA from './data';
 import ReactDOM from 'react-dom';
+
 import Page from 'src/components/Page';
 import API from '../../utils/API';
 import TournamentWidget from './DashboardView/TournamentWidget';
@@ -54,6 +56,7 @@ const Dashboard = () => {
     useEffect(()=> {
         async function fetchAPI() {
             console.log("Fetching solo tournaments...")
+            localStorage.setItem('lasttournament', id)
             API.getTournament(id).then(res=>{
                 console.log(res)
                 if (res.tournament) {
@@ -85,6 +88,8 @@ const Dashboard = () => {
         {console.log(tournament)}
     }, []);
 
+    const navigate = useNavigate();
+
     function startTournament() {
         if (tournament.registeredTeams.length != 16 ) //parseInt({thisTeam.maxmembers}
             return;
@@ -93,6 +98,8 @@ const Dashboard = () => {
 
     function joinTournament(teamid) {
         API.joinTournament(id, teamid)
+        window.location.reload(false);
+
     }
 
     function leaveTournament() {
@@ -102,6 +109,7 @@ const Dashboard = () => {
     function deleteTournament() {
         console.log("test")
         API.deleteTournament(id)
+        navigate('../', {replace: true})
     }
     const [anchorEl, setAnchorEl] = React.useState(null);
 

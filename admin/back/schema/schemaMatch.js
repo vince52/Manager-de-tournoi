@@ -26,7 +26,8 @@ const matchSchema = mongoose.Schema({
         ref: "Match",
     },
     when: {
-        type: String
+        type: String,
+        default: Date.now
     },
     players: [{
             type: mongoose.Schema.Types.ObjectId,

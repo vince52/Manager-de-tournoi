@@ -16,6 +16,7 @@ import {
 } from '@material-ui/core';
 import MenuItem from '@material-ui/core/MenuItem';
 import { withStyles } from "@material-ui/core/styles";
+import { useParams, useNavigate } from "react-router-dom";
 import Page from 'src/components/Page';
 import API from 'src/utils/API';
 
@@ -64,10 +65,11 @@ const TournamentEditor = ({className, ...rest}) => {
   const handleChange2 = (event) => {
     setGametypevalue(event.target.value);
   };
-
+  const navigate = useNavigate();
   const sumbitForm = async () => {
     console.log("Submit tournament: " + values.Name + " " + values.nbPlayers + " " + gametypevalue + " " + values.Gamemode);
     await API.postNewTournament(values.Name, parseInt(values.nbPlayers, 10), gametypevalue, values.Gamemode);
+    navigate('/app/mytournaments/', {replace: true})
   }
 
   return (

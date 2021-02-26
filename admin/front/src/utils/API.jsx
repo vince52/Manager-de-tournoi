@@ -136,6 +136,16 @@ export default {
             return [];
         }
     },
+    setWinner: async function(tournamentid, teamid) {
+        try {
+            let body = {teamid: teamid, tournamentid}
+            let res = await axios.post("/tournament/winner", body);
+            return true;
+        } catch (e) {
+            console.log("Error teams: ", e);
+            return false;
+        }
+    },
     getTournaments: async function() {
         try {
             let res = await axios.get("/tournament/getAll");
@@ -291,4 +301,22 @@ export default {
             return e.response.data;
         }
     },
+    updateMatch: async function(matchid, left_score, right_score) {
+        let body = {matchid: matchid, left_score: left_score, right_score: right_score}
+        try {
+            let res = await axios.post('/match/updatematch', body)
+            return true
+        } catch(e) {
+            return false
+        }
+    },
+    updateTournament: async function(name, nbTeamLimit, gameType, gameMode, id) {
+        let body = {name: name, tournamentid: id, gameType: gameType, gameMode: gameMode, nbTeamLimit: nbTeamLimit}
+        try {
+            let res = await axios.post('/tournament/update', body)
+            return true
+        } catch(e) {
+            return false
+        }
+    }
 };

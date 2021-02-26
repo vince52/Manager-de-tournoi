@@ -1,12 +1,24 @@
-import React, {Component} from 'react';
+import React, { useState } from 'react';
+import clsx from 'clsx';
 import {
-    makeStyles,
-    Grid,
-    Typography
+  Collapse,
+  IconButton,
+  Box,
+  Button,
+  Card,
+  CardContent,
+  CardHeader,
+  Divider,
+  Grid,
+  TextField,
+  makeStyles,
+  Typography,
 } from '@material-ui/core';
+import MenuItem from '@material-ui/core/MenuItem';
 import { withStyles } from "@material-ui/core/styles";
+import {  useNavigate } from "react-router-dom";
 import Page from 'src/components/Page';
-import API from '../../utils/API';
+import API from 'src/utils/API';
 
 const WhiteTextTypography = withStyles({
     root: {
@@ -14,86 +26,109 @@ const WhiteTextTypography = withStyles({
     }
   })(Typography);
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        backgroundColor: theme.palette.background.dark,
-        minHeight: '100%',
-        paddingBottom: theme.spacing(3),
-        paddingTop: theme.spacing(3)
-    },
-    paper: {
-        padding: theme.spacing(2),
-        textAlign: 'center',
-        color: theme.palette.text.secondary,
-      },
+const useStyles = makeStyles(() => ({
+  root: {}
 }));
 
-class TeamsForm extends Component {
-    constructor() {
-      super();
-      this.state = {
-        Name: '',
-        Password: ''
-      };
-    }
+const TeamEditor = ({className, ...rest}) => {
+  const classes = useStyles();
+  const navigate = useNavigate();
 
-    onChange = (e) => {
-      /*
-        Because we named the inputs to match their
-        corresponding values in state, it's
-        super easy to update the state
-      */
-      this.setState({ [e.target.name]: e.target.value });
-    }
+  const [values, setValues] = useState({
+    Name:'',
+    Password:'',
+  })
 
-    onSubmit = (e) => {
-        e.preventDefault();
-        // get our form data out of state
-        const { Name, Password } = this.state;
-        API.createTeam(Name, Password);
-      }
+  const handleChange = (event) => {
+    setValues({
+      ...values,
+      [event.target.name]: event.target.value
+    });
+  };
 
-    render() {
-      const { Name, Password } = this.state;
-      return (
-        <form onSubmit={this.onSubmit}>
-        <Grid
-            container
-            direction="column"
-        >
-            <Grid item>
-            <WhiteTextTypography>Name:</WhiteTextTypography>
-            <input
-                type="text"
-                name="Name"
-                value={Name}
-                onChange={this.onChange}
-            />
-            </Grid>
-            <Grid item>
-            <WhiteTextTypography>Password:</WhiteTextTypography>
-            <input
-                type="text"
-                name="Password"
-                value={Password}
-                onChange={this.onChange}
-            />
-            </Grid>
-            <button type="submit">Submit</button>
-        </Grid>
-        </form>
-      );
-    }
+  const sumbitForm = async () => {
+    await API.createTeam(values.Name, values.Password);
+    navigate('/app/teams', {replace: true});
   }
 
-const TeamPage = () => {
+  return (
+    <div>
+      <form
+        autoComplete="off"
+        noValidate
+        className={clsx(classes.root, className)}
+        {...rest}
+      >
+        <Card>
+          <CardHeader
+            title="New Team"
+            subheader=""
+          />
+          <Divider />
+          <CardContent>
+            <Grid
+              container
+              spacing={3}
+            >
+              <Grid
+                item
+                md={8}
+                xs={4}
+              >
+                <TextField
+                  fullWidth
+                  helperText="Team Name"
+                  name="Name"
+                  onChange={handleChange}
+                  required
+                  value={values.Name}
+                  variant="outlined"
+                />
+              </Grid>
+              <Grid
+                item
+                md={8}
+                xs={4}
+              >
+                <TextField
+                  fullWidth
+                  helperText="Password"
+                  name="Password"
+                  onChange={handleChange}
+                  required
+                  value={values.Password}
+                  variant="outlined"
+                />
+              </Grid>
+            </Grid>
+          </CardContent>
+          <Divider />
+          <Box
+            display="flex"
+            justifyContent="flex-end"
+            p={2}
+          >
+            <Button
+            onClick={sumbitForm}
+              color="primary"
+              variant="contained"
+            >
+              Create
+            </Button>
+          </Box>
+        </Card>
+      </form>
+    </div>
+  );
+};
+
+const TeamEditorPage = () => {
     const classes = useStyles();
     return (
-        <Page className = { classes.root } title = "Tournamenteditor" >
-            <WhiteTextTypography variant="h1">New Team</WhiteTextTypography>
-            <TeamsForm/>
+        <Page className = { classes.root } title = "Teameditor">
+          <TeamEditor/>
         </Page>
     )
 };
 
-export default TeamPage;
+export default TeamEditorPage;

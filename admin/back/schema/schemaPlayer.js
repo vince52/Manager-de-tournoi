@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 
 const playerSchema = mongoose.Schema({
-    Name: {
-        type: String,
-        require: true
+    Playerid: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
     },
     Kill: {
         type: Number,

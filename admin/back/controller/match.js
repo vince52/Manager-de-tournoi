@@ -29,7 +29,10 @@ async function populateAll(match) {
         if (match.right_team)
             obj.right_team = await match.populate('right_team').execPopulate()
         obj.id = match._id
-        obj.score = match.Score
+        if (match.left_score)
+            obj.left_score = match.left_score
+        if (match.right_score)
+            obj.right_score = match.right_score
         obj.left_team = match.left_team
         obj.right_team = match.right_team
         if (match.left)
@@ -49,8 +52,7 @@ module.exports = function(app) {
         console.log(req.params.id)
         if (!req.params.id)
             return res.status(400).json({ error: 'Check Arguments' })
-        Match.findOne({_id: req.params.id}).then(async team => {
-            team.populate('matchs').execPopulate();
+        Match.findOne({_id: req.params.id}).populate('matchs').then(async team => {
             obj = await populateAll(team)
             return res.status(200).json({matchs: obj})
         })
@@ -64,40 +66,49 @@ module.exports = function(app) {
             return res.status(200).json({matchs: team})
         })
     }),
-    app.post('/start/', auth, async (req, res) => {
+    app.post('/start/', auth, (req, res) => {
         console.log(req.body.matchid)
         if (!req.body.matchid)
             return res.status(400).json({ error: 'Check Arguments' })
-        Match.findOne({_id: req.body.matchid}).populate('right_team').populate('left_team').then(async match => {
-            console.log("HERE" + match)
-            await match.left_team.members.forEach(element => {
-                console.log("left team")
-                console.log(element)
-                User.findOne({_id: element}).then(eleme => {
-                    const play = Player({Name: eleme.name, Kill: 0, Death: 0, Assist: 0})
-                    play.save().then(saved => {
-                        match.players.push(saved)
-                    })
+
+        Match.findOne({_id: req.body.matchid}).populate('left_team').populate('right_team')
+            .then(match => {
+                if (!match) {
+                    console.log("No match Found")
+                }
+                const left_team = match.left_team.members;
+                left_team.forEach(element => {
+                    const player = Player(element)
+                    player.save().then(a => {match.players.push(a)}).catch(e => {console.log("error", e)})
                 })
-                
-                
-            });
-            await match.right_team.members.forEach(element => {
-                    console.log("right_team")
-                    console.log(element)
-                    User.findOne({_id: element}).then(eleme => {
-                        const play = Player({Name: eleme.name, Kill: 0, Death: 0, Assist: 0})
-                        play.save().then(saved => {
-                            match.players.push(saved)
-                        })
-                    })
-            });
-            await match.save().then(async nm => {
-                await nm.populate('players').execPopulate();
-                sleep(200)
-                console.log(nm)
-                return res.status(200).json({matchs: nm})
+
+                const right_team = match.right_team.members;
+                right_team.forEach(element => {
+                    const player = Player(element)
+                    player.save().then(a => {match.players.push(a)}).catch(e => {console.log("error", e)})
+                })
+                match.save().then(matchb => {
+                    console.log(matchb)
+                    return res.status(200).json({matchs: matchb})
+                })
             })
+    }),
+    app.post('/updatematch/', auth, (req, res) => {
+        console.log(req.body.matchid)
+        if (!req.body.matchid)
+            return res.status(400).json({ error: 'Check Arguments' })
+        if (!req.body.right_score)
+            return res.status(400).json({ error: 'Check Arguments' })
+        if (!req.body.left_score)
+            return res.status(400).json({ error: 'Check Arguments' })
+
+        Match.findOne({_id : req.body.matchid}).then(match => {
+            match.right_score = req.body.right_score
+            match.left_score = req.body.left_score
+            match.save().then(ret => {
+                return res.status(200).json({match: ret})
+            }).catch(err => { return res.status(400).json({error: err})})
         })
+        //return res.status(400).json({error: "RANDOM eror"})
     })
 }

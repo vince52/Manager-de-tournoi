@@ -30,51 +30,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Dashboard = () => {
     const classes = useStyles();
-    /*
-    const mytournaments1 = {
-        tournaments: [{
-          id_tournament: 1,
-          name: "The \"Gabe\" Tournament CSGO",
-          owners: [],
-          gametype: "csgo",
-          nbTeamRegister: 1,
-          nbTeamLimit: 2,
-          gamemode: "Competitive",
-          creationDate: 0,
-          beginningDate: 0,
-          endRegistrationDate: "14/01/2021",
-          cashprize: 10000,
-          Timezone: "Eutope/Paris (UTC+1)"
-        },
-        {
-            id_tournament: 4,
-            name: "My Tournament Rainbow Six",
-            owners: [],
-            gametype: "r6",
-            nbTeamRegister: 5,
-            nbTeamLimit: 32,
-            gamemode: "3v3",
-            creationDate: 0,
-            beginningDate: 0,
-            endRegistrationDate: "14/01/2021",
-            cashprize: 4000,
-            Timezone: "Eutope/Paris (UTC+1)"
-        },
-        {
-            id_tournament: 5,
-            name: "My T",
-            owners: [],
-            gametype: "valorant",
-            nbTeamRegister: 5,
-            nbTeamLimit: 32,
-            gamemode: "3v3",
-            creationDate: 0,
-            beginningDate: 0,
-            endRegistrationDate: "14/01/2021",
-            cashprize: 4000,
-            Timezone: "Eutope/Paris (UTC+1)"
-        }]
-    } */
+    
     const [mytournaments1, setTournaments] = useState([]);
     useEffect(()=> {
         async function fetchAPI() {
@@ -105,7 +61,7 @@ const Dashboard = () => {
                     key={index}
                     name={quest.name}
                     gametype={quest.gameType}
-                    id_tournament={quest.id_tournament}
+                    id_tournament={quest._id}
                     nbTeamRegistered={quest.nbTeamRegistered}
                     nbTeamLimit={quest.nbTeamLimit}
                     gamemode={quest.gameMode}

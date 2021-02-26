@@ -20,7 +20,6 @@ function update_info(req, res, next) {
     console.log("TEST UPDATE INFO: ", variabl.getName());
     next();
 }
-
 module.exports = function(app) {
     // Logout
     app.get('/logout', auth, (req, res) => {
